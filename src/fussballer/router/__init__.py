@@ -1,4 +1,4 @@
-# Copyright (C) 2022 - present Juergen Zimmermann, Hochschule Karlsruhe
+# Copyright (C) 2023 - present Juergen Zimmermann, Hochschule Karlsruhe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -12,20 +12,19 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""Modul für die REST-Schnittstelle einschließlich Validierung."""
 
-"""Konfiguration für GraphQL."""
+from collections.abc import Sequence
 
-from typing import Final
+from fussballer.router.fussballer_router import fussballer_router, get_by_id
+from fussballer.router.fussballer_router_helloworld import (
+    fussballer_router_hello_world,
+    test,
+)
 
-from strawberry.http.ides import GraphQL_IDE
-
-from fussballer.config.config import app_config
-
-__all__ = ["graphql_ide"]
-
-
-_graphql_toml: Final = app_config.get("graphql", {})
-_graphiql_enabled: Final = bool(_graphql_toml.get("graphiql-enabled", False))
-
-graphql_ide: Final[GraphQL_IDE | None] = "graphiql" if _graphiql_enabled else None
-"""String 'graphiql', falls GraphiQL aktiviert ist, sonst None."""
+__all__: Sequence[str] = [
+    "fussballer_router",
+    "fussballer_router_hello_world",
+    "get_by_id",
+    "test",
+]

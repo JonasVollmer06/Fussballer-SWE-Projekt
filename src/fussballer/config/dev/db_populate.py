@@ -23,8 +23,6 @@ from string import Template
 from typing import Final
 
 from loguru import logger
-from sqlalchemy import Connection, create_engine, text
-
 from patient.config.config import resources_path
 from patient.config.db import (
     db_connect_args,
@@ -34,6 +32,7 @@ from patient.config.db import (
 )
 from patient.config.dev_modus import dev_db_populate
 from patient.repository import engine
+from sqlalchemy import Connection, create_engine, text
 
 __all__ = ["DbPopulateService", "db_populate", "get_db_populate_service"]
 

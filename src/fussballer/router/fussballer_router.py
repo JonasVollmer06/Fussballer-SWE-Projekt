@@ -7,11 +7,8 @@ from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import JSONResponse
 from loguru import logger
 
-from fussballer.repository import Pageable
-from fussballer.repository.slice import Slice
 from fussballer.router.constants import ETAG, IF_NONE_MATCH, IF_NONE_MATCH_MIN_LEN
 from fussballer.router.dependencies import get_service
-from fussballer.router.page import Page
 from fussballer.security import Role, RolesRequired, User
 from fussballer.service import FussballerDTO, FussballerService
 
@@ -68,8 +65,9 @@ def get_by_id(
         headers={ETAG: f'"{fussballer.version}"'},
     )
 
-    def _fussballer_to_dict(fussballer: FussballerDTO) -> dict[str, Any]:
+
+def _fussballer_to_dict(fussballer: FussballerDTO) -> dict[str, Any]:
     fussballer_dict: Final = asdict(obj=fussballer)
-    patient_dict.pop("version")
-    patient_dict.update({"geburtsdatum": fussballer.geburtsdatum.isoformat()})
+    fussballer_dict.pop("version")
+    fussballer_dict.update({"geburtsdatum": fussballer.geburtsdatum.isoformat()})
     return fussballer_dict
