@@ -12,20 +12,24 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""Modul für die REST-Schnittstelle einschließlich Validierung."""
 
-from collections.abc import Sequence
+"""Exceptions beim Zugriffsschutz."""
 
-from fussballer.router.fussballer_model import FussballerModel
-from fussballer.router.fussballer_router import fussballer_router
-from fussballer.router.fussballer_router_helloworld import (
-    fussballer_router_hello_world,
-    test,
-)
 
-__all__: Sequence[str] = [
-    "FussballerModel",
-    "fussballer_router",
-    "fussballer_router_hello_world",
-    "test",
-]
+class LoginError(Exception):
+    """Exception, falls Benutzername oder Passwort fehlerhaft ist."""
+
+    def __init__(
+        self,
+        username: str | None = None,
+    ) -> None:
+        """Initialisierung von LoginError mit fehlerhaftem Benutzername oder Passwort.
+
+        :param username: Benutzername
+        """
+        super().__init__(f"Fehlerhafte Benutzerdaten fuer {username}")
+        self.username = username
+
+
+class AuthorizationError(Exception):
+    """Exception, falls der "Authorization"-String fehlt oder fehlerhaft ist."""

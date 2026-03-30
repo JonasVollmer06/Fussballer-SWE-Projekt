@@ -20,7 +20,7 @@ from pathlib import Path
 from time import time
 from typing import TYPE_CHECKING, Any, Final
 
-from fastapi import FastAPI, Request, Response, status
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.gzip import (
     GZipMiddleware,  # https://fastapi.tiangolo.com/advanced/middleware/#gzipmiddleware
 )
@@ -39,37 +39,38 @@ from fussballer.config.dev.keycloak_populate import keycloak_populate
 from fussballer.config.dev.keycloak_populate_router import (
     router as keycloak_populate_router,
 )
-from fussballer.graphql_api import graphql_router
-from fussballer.problem_details import create_problem_details
+
+# from fussballer.graphql_api import graphql_router
 from fussballer.repository.session_factory import engine
 from fussballer.router import (
     fussballer_router,
-    fussballer_write_router,
-    health_router,
-    shutdown_router,
+    #    fussballer_write_router,
+    #    health_router,
+    #    shutdown_router,
 )
-from fussballer.security import AuthorizationError, LoginError, set_response_headers
 from fussballer.security import router as auth_router
-from fussballer.service import (
-    EmailExistsError,
-    ForbiddenError,
-    NotFoundError,
-    UsernameExistsError,
-    VersionOutdatedError,
-)
+from fussballer.security import set_response_headers
+
+# from fussballer.service import (
+#    EmailExistsError,
+#    ForbiddenError,
+#    NotFoundError,
+#    UsernameExistsError,
+#    VersionOutdatedError,
+# )
 
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator, Awaitable, Callable
 
-__all__ = [
-    "authorization_error_handler",
-    "email_exists_error_handler",
-    "forbidden_error_handler",
-    "login_error_handler",
-    "not_found_error_handler",
-    "username_exists_error_handler",
-    "version_outdated_error_handler",
-]
+# __all__ = [
+#    "authorization_error_handler",
+#    "email_exists_error_handler",
+#    "forbidden_error_handler",
+#    "login_error_handler",
+#    "not_found_error_handler",
+#    "username_exists_error_handler",
+#    "version_outdated_error_handler",
+# ]
 
 
 TEXT_PLAIN: Final = "text/plain"
@@ -127,10 +128,10 @@ async def log_response_time(
 # R E S T
 # --------------------------------------------------------------------------------------
 app.include_router(fussballer_router, prefix="/rest")
-app.include_router(fussballer_write_router, prefix="/rest")
+# app.include_router(fussballer_write_router, prefix="/rest")
 app.include_router(auth_router, prefix="/auth")
-app.include_router(health_router, prefix="/health")
-app.include_router(shutdown_router, prefix="/admin")
+# app.include_router(health_router, prefix="/health")
+# app.include_router(shutdown_router, prefix="/admin")
 
 if dev_db_populate:
     app.include_router(db_populate_router, prefix="/dev")
@@ -141,7 +142,7 @@ if dev_keycloak_populate:
 # --------------------------------------------------------------------------------------
 # G r a p h Q L
 # --------------------------------------------------------------------------------------
-app.include_router(graphql_router, prefix="/graphql")
+# app.include_router(graphql_router, prefix="/graphql")
 
 
 # --------------------------------------------------------------------------------------
@@ -189,101 +190,101 @@ def favicon() -> FileResponse:
 # --------------------------------------------------------------------------------------
 # E x c e p t i o n   H a n d l e r
 # --------------------------------------------------------------------------------------
-@app.exception_handler(NotFoundError)
-def not_found_error_handler(_request: Request, _err: NotFoundError) -> Response:
-    """Errorhandler für NotFoundError.
+# @app.exception_handler(NotFoundError)
+# def not_found_error_handler(_request: Request, _err: NotFoundError) -> Response:
+#    """Errorhandler für NotFoundError.
 
-    :param _err: NotFoundError aus der Geschäftslogik
-    :return: Response mit Statuscode 404
-    :rtype: Response
-    """
-    return create_problem_details(status_code=status.HTTP_404_NOT_FOUND)
-
-
-@app.exception_handler(ForbiddenError)
-def forbidden_error_handler(_request: Request, _err: ForbiddenError) -> Response:
-    """Errorhandler für ForbiddenError.
-
-    :param _err: ForbiddenError vom Überprüfen der erforderlichen Rollen
-    :return: Response mit Statuscode 403
-    :rtype: Response
-    """
-    return create_problem_details(status_code=status.HTTP_403_FORBIDDEN)
+#    :param _err: NotFoundError aus der Geschäftslogik
+#    :return: Response mit Statuscode 404
+#    :rtype: Response
+#    """
+#    return create_problem_details(status_code=status.HTTP_404_NOT_FOUND)
 
 
-@app.exception_handler(AuthorizationError)
-def authorization_error_handler(
-    _request: Request,
-    _err: AuthorizationError,
-) -> Response:
-    """Errorhandler für AuthorizationError.
+# @app.exception_handler(ForbiddenError)
+# def forbidden_error_handler(_request: Request, _err: ForbiddenError) -> Response:
+#    """Errorhandler für ForbiddenError.
 
-    :param _err: AuthorizationError vom Extrahieren der Benutzerkennung aus dem
-        Authorization-Header
-    :return: Response mit Statuscode 401
-    :rtype: Response
-    """
-    return create_problem_details(status_code=status.HTTP_401_UNAUTHORIZED)
+#    :param _err: ForbiddenError vom Überprüfen der erforderlichen Rollen
+#    :return: Response mit Statuscode 403
+#    :rtype: Response
+#    """
+#    return create_problem_details(status_code=status.HTTP_403_FORBIDDEN)
 
 
-@app.exception_handler(LoginError)
+# @app.exception_handler(AuthorizationError)
+# def authorization_error_handler(
+#    _request: Request,
+#    _err: AuthorizationError,
+# ) -> Response:
+#    """Errorhandler für AuthorizationError.
+
+#    :param _err: AuthorizationError vom Extrahieren der Benutzerkennung aus dem
+#        Authorization-Header
+#    :return: Response mit Statuscode 401
+#    :rtype: Response
+#    """
+#    return create_problem_details(status_code=status.HTTP_401_UNAUTHORIZED)
+
+
+# @app.exception_handler(LoginError)
 # pylint: disable-next=invalid-name
-def login_error_handler(_request: Request, err: LoginError) -> Response:
-    """Exception-Handler, wenn der Benutzername oder das Passwort fehlerhaft ist.
+# def login_error_handler(_request: Request, err: LoginError) -> Response:
+#    """Exception-Handler, wenn der Benutzername oder das Passwort fehlerhaft ist.
 
-    :param _exc: LoginError
-    :return: Response-Objekt mit Statuscode 401
-    :rtype: Response
-    """
-    return create_problem_details(
-        status_code=status.HTTP_401_UNAUTHORIZED, detail=str(err)
-    )
-
-
-@app.exception_handler(EmailExistsError)
-def email_exists_error_handler(_request: Request, err: EmailExistsError) -> Response:
-    """Exception-Handling für EmailExistsError.
-
-    :param err: Exception, falls die Emailadresse des neuen oder zu ändernden Patienten
-        bereits existiert
-    :return: Response mit Statuscode 422
-    :rtype: Response
-    """
-    return create_problem_details(
-        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-        detail=str(err),
-    )
+#    :param _exc: LoginError
+#    :return: Response-Objekt mit Statuscode 401
+#    :rtype: Response
+#    """
+#    return create_problem_details(
+#        status_code=status.HTTP_401_UNAUTHORIZED, detail=str(err)
+#    )
 
 
-@app.exception_handler(UsernameExistsError)
-def username_exists_error_handler(
-    _request: Request,
-    err: UsernameExistsError,
-) -> Response:
-    """Exception-Handling für UsernameExistsError.
+# @app.exception_handler(EmailExistsError)
+# def email_exists_error_handler(_request: Request, err: EmailExistsError) -> Response:
+#    """Exception-Handling für EmailExistsError.
 
-    :param err: Exception, falls der Username für den neuen Patienten bereits existiert
-    :return: Response mit Statuscode 422
-    :rtype: Response
-    """
-    return create_problem_details(
-        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-        detail=str(err),
-    )
+#    :param err: Exception, falls die Emailadresse des neuen oder zu ändernden Patienten
+#        bereits existiert
+#    :return: Response mit Statuscode 422
+#    :rtype: Response
+#    """
+#    return create_problem_details(
+#        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+#        detail=str(err),
+#    )
 
 
-@app.exception_handler(VersionOutdatedError)
-def version_outdated_error_handler(
-    _request: Request,
-    err: VersionOutdatedError,
-) -> Response:
-    """Exception-Handling für VersionOutdatedError.
+# @app.exception_handler(UsernameExistsError)
+# def username_exists_error_handler(
+#    _request: Request,
+#    err: UsernameExistsError,
+# ) -> Response:
+#    """Exception-Handling für UsernameExistsError.
 
-    :param _err: Exception, falls die Versionsnummer zum Aktualisieren veraltet ist
-    :return: Response mit Statuscode 412
-    :rtype: Response
-    """
-    return create_problem_details(
-        status_code=status.HTTP_412_PRECONDITION_FAILED,
-        detail=str(err),
-    )
+#    :param err: Exception, falls der Username für den neuen Patienten bereits existiert
+#    :return: Response mit Statuscode 422
+#    :rtype: Response
+#    """
+#    return create_problem_details(
+#        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+#        detail=str(err),
+#    )
+
+
+# @app.exception_handler(VersionOutdatedError)
+# def version_outdated_error_handler(
+#    _request: Request,
+#    err: VersionOutdatedError,
+# ) -> Response:
+#    """Exception-Handling für VersionOutdatedError.
+#
+#    :param _err: Exception, falls die Versionsnummer zum Aktualisieren veraltet ist
+#    :return: Response mit Statuscode 412
+#    :rtype: Response
+#    """
+#    return create_problem_details(
+#        status_code=status.HTTP_412_PRECONDITION_FAILED,
+#        detail=str(err),
+#    )

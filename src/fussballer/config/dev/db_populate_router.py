@@ -20,9 +20,9 @@ from typing import Annotated, Final
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
 from loguru import logger
-from patient.security import Role, RolesRequired, User
 
 from fussballer.config.dev.db_populate import DbPopulateService, get_db_populate_service
+from fussballer.security import Role, RolesRequired, User
 
 __all__ = ["router"]
 

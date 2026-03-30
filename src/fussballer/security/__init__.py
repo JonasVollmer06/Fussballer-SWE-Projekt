@@ -12,20 +12,26 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""Modul für die REST-Schnittstelle einschließlich Validierung."""
+"""Modul für den Zugriffsschutz."""
 
-from collections.abc import Sequence
+from fussballer.security.auth_router import router, token
+from fussballer.security.exceptions import AuthorizationError, LoginError
+from fussballer.security.response_headers import set_response_headers
+from fussballer.security.role import Role
+from fussballer.security.roles_required import RolesRequired
+from fussballer.security.token_service import TokenService
+from fussballer.security.user import User
+from fussballer.security.user_service import UserService
 
-from fussballer.router.fussballer_model import FussballerModel
-from fussballer.router.fussballer_router import fussballer_router
-from fussballer.router.fussballer_router_helloworld import (
-    fussballer_router_hello_world,
-    test,
-)
-
-__all__: Sequence[str] = [
-    "FussballerModel",
-    "fussballer_router",
-    "fussballer_router_hello_world",
-    "test",
+__all__ = [
+    "AuthorizationError",
+    "LoginError",
+    "Role",
+    "RolesRequired",
+    "TokenService",
+    "User",
+    "UserService",
+    "router",
+    "set_response_headers",
+    "token",
 ]

@@ -1,4 +1,4 @@
-# Copyright (C) 2023 - present Juergen Zimmermann, Hochschule Karlsruhe
+# Copyright (C) 2022 - present Juergen Zimmermann, Hochschule Karlsruhe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -12,20 +12,32 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""Modul für die REST-Schnittstelle einschließlich Validierung."""
 
-from collections.abc import Sequence
+"""Entity-Klasse für Benutzerdaten."""
 
-from fussballer.router.fussballer_model import FussballerModel
-from fussballer.router.fussballer_router import fussballer_router
-from fussballer.router.fussballer_router_helloworld import (
-    fussballer_router_hello_world,
-    test,
-)
+from dataclasses import dataclass
 
-__all__: Sequence[str] = [
-    "FussballerModel",
-    "fussballer_router",
-    "fussballer_router_hello_world",
-    "test",
-]
+from fussballer.security.role import Role
+
+
+@dataclass()
+class User:
+    """Entity-Klasse für Benutzerdaten."""
+
+    username: str
+    """Benutzername."""
+
+    email: str
+    """Emailadresse."""
+
+    nachname: str
+    """Nachname."""
+
+    vorname: str
+    """Vorname."""
+
+    roles: list[Role]
+    """Rollen als Liste von Enums."""
+
+    password: str | None = None
+    """Passwort."""

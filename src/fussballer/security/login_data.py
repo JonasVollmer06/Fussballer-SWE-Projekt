@@ -12,20 +12,30 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""Modul für die REST-Schnittstelle einschließlich Validierung."""
 
-from collections.abc import Sequence
+"""Data class für die Login-Daten."""
 
-from fussballer.router.fussballer_model import FussballerModel
-from fussballer.router.fussballer_router import fussballer_router
-from fussballer.router.fussballer_router_helloworld import (
-    fussballer_router_hello_world,
-    test,
-)
+from dataclasses import dataclass
 
-__all__: Sequence[str] = [
-    "FussballerModel",
-    "fussballer_router",
-    "fussballer_router_hello_world",
-    "test",
-]
+__all__ = ["LoginData"]
+
+
+@dataclass
+class LoginData:
+    """Data class für die Login-Daten."""
+
+    username: str
+    """Benutzername"""
+    password: str
+    """Passwort"""
+
+    class Config:
+        """Beispiel für OpenAPI."""
+
+        # https://fastapi.tiangolo.com/tutorial/schema-extra-example
+        json_schema_extra = {
+            "example": {
+                "username": "admin",
+                "password": "p",  # NOSONAR
+            },
+        }

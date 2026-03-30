@@ -23,16 +23,17 @@ from string import Template
 from typing import Final
 
 from loguru import logger
-from patient.config.config import resources_path
-from patient.config.db import (
+from sqlalchemy import Connection, create_engine, text
+
+from fussballer.config.config import resources_path
+from fussballer.config.db import (
     db_connect_args,
     db_dialect,
     db_log_statements,
     db_url_admin,
 )
-from patient.config.dev_modus import dev_db_populate
-from patient.repository import engine
-from sqlalchemy import Connection, create_engine, text
+from fussballer.config.dev_modus import dev_db_populate
+from fussballer.repository import engine
 
 __all__ = ["DbPopulateService", "db_populate", "get_db_populate_service"]
 
@@ -113,7 +114,7 @@ class DbPopulateService:
     def _load_csv_files(self) -> None:
         logger.debug("begin")
         tabellen: Final = ["patient", "adresse", "rechnung"]
-        csv_path: Final = "/init/patient/csv"
+        csv_path: Final = "/init/fussballer/csv"
         # siehe extras/compose/postgres/compose.init.yml
         with self.engine_admin.connect() as connection:
             connection.execute(text("SET search_path TO patient;"))

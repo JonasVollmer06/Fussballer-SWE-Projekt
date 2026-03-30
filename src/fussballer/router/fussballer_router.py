@@ -1,22 +1,14 @@
 """FußballerGetRouter."""
 
-from dataclasses import asdict
-from typing import Annotated, Any, Final
+from typing import Final
 
-from fastapi import APIRouter, Depends, Request, Response, status
-from fastapi.responses import JSONResponse
-from loguru import logger
-
-from fussballer.router.constants import ETAG, IF_NONE_MATCH, IF_NONE_MATCH_MIN_LEN
-from fussballer.router.dependencies import get_service
-from fussballer.security import Role, RolesRequired, User
-from fussballer.service import FussballerDTO, FussballerService
+from fastapi import APIRouter
 
 __all__: list[str] = ["fussballer_router"]
 
 fussballer_router: Final = APIRouter(tags=["Lesen"])
 
-
+"""
 @fussballer_router.get(
     "/{fussballer_id}",
     dependencies=[Depends(RolesRequired([Role.ADMIN, Role.PATIENT]))],
@@ -26,7 +18,7 @@ def get_by_id(
     request: Request,
     service: Annotated[FussballerService, Depends(get_service)],
 ) -> Response:
-    """Suche mit der Fussballer-ID.
+    Suche mit der Fussballer-ID.
 
     :param fussballer_id: ID des gesuchten Fußballers als Pfadparameter
     :param request: Injiziertes Request-Objekt von FastAPI bzw. Starlette
@@ -36,7 +28,6 @@ def get_by_id(
     :rtype: Response
     :raises NotFoundError: Falls kein Fußballer gefunden wurde
     :raises ForbiddenError: Falls die Fußballerdaten nicht gelesen werden dürfen
-    """
     # User-Objekt ist durch Depends(RolesRequired()) in Request.state gepuffert
     user: Final[User] = request.state.current_user
     logger.debug("fussballer_id={}, user={}", fussballer_id, user)
@@ -71,3 +62,4 @@ def _fussballer_to_dict(fussballer: FussballerDTO) -> dict[str, Any]:
     fussballer_dict.pop("version")
     fussballer_dict.update({"geburtsdatum": fussballer.geburtsdatum.isoformat()})
     return fussballer_dict
+"""
