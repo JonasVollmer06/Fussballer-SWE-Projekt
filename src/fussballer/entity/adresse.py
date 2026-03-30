@@ -3,7 +3,7 @@
 from sqlalchemy import ForeignKey, Identity
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from patient.entity.base import Base
+from fussballer.entity.base import Base
 
 
 class Adresse(Base):

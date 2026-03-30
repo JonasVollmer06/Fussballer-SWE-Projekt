@@ -1,4 +1,4 @@
-# Copyright (C) 2022 - present Juergen Zimmermann, Hochschule Karlsruhe
+# Copyright (C) 2023 - present Juergen Zimmermann, Hochschule Karlsruhe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,19 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-"""Konfiguration für GraphQL."""
+"""FußballerGetRouter."""
 
 from typing import Final
 
-from strawberry.http.ides import GraphQL_IDE
+__all__ = [
+    "ETAG",
+    "IF_MATCH",
+    "IF_MATCH_MIN_LEN",
+    "IF_NONE_MATCH",
+    "IF_NONE_MATCH_MIN_LEN",
+]
 
-from fussballer.config.config import app_config
-
-__all__ = ["graphql_ide"]
-
-
-_graphql_toml: Final = app_config.get("graphql", {})
-_graphiql_enabled: Final = bool(_graphql_toml.get("graphiql-enabled", False))
-
-graphql_ide: Final[GraphQL_IDE | None] = "graphiql" if _graphiql_enabled else None
-"""String 'graphiql', falls GraphiQL aktiviert ist, sonst None."""
+ETAG: Final = "ETag"
+IF_MATCH: Final = "if-match"
+IF_MATCH_MIN_LEN: Final = 3
+IF_NONE_MATCH: Final = "if-none-match"
+IF_NONE_MATCH_MIN_LEN: Final = 3

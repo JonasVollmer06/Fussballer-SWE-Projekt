@@ -23,11 +23,11 @@ from fastapi import Depends
 from keycloak import KeycloakConnectionError
 from loguru import logger
 
-from patient.config import csv_config
-from patient.config.dev_modus import dev_keycloak_populate
-from patient.security import User, UserService
-from patient.security.dependencies import get_user_service
-from patient.security.role import Role
+from fussballer.config import csv_config
+from fussballer.config.dev_modus import dev_keycloak_populate
+from fussballer.security import User, UserService
+from fussballer.security.dependencies import get_user_service
+from fussballer.security.role import Role
 
 __all__ = [
     "KeycloakPopulateService",
@@ -90,7 +90,7 @@ class KeycloakPopulateService:
                     email=email,
                     nachname=nachname,
                     vorname=nachname,
-                    roles=[Role.PATIENT],
+                    roles=[Role.FUSSBALLER],
                     password="p",  # noqa: S106 # NOSONAR
                 )
                 self.user_service.create_user(user=user)

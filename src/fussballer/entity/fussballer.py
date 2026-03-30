@@ -1,16 +1,14 @@
 """Entity-Klasse für Fußballerdaten."""
 
-from dataclasses import InitVar
 from datetime import date, datetime
 from typing import Any, Self
 
-from loguru import logger
-from sqlalchemy import JSON, Identity, func
-from sqlalchemy.orm import Mapped, mapped_column, reconstructor, relationship
+from sqlalchemy import Identity, func
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from fussballer.entity.adresse import Adresse
-from fussballer.entity.base import Base
 from fussballer.entity.auszeichnung import Auszeichnung
+from fussballer.entity.base import Base
 from fussballer.entity.position import Position
 
 
