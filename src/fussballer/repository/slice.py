@@ -1,4 +1,4 @@
-# Copyright (C) 2023 - present Juergen Zimmermann, Hochschule Karlsruhe
+# Copyright (C) 2024 - present Juergen Zimmermann, Hochschule Karlsruhe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -12,20 +12,24 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""Modul für die REST-Schnittstelle einschließlich Validierung."""
 
-from collections.abc import Sequence
+"""Ausschnitt an gefundenen Daten."""
 
-from fussballer.router.fussballer_model import FussballerModel
-from fussballer.router.fussballer_router import fussballer_router
-from fussballer.router.fussballer_router_helloworld import (
-    fussballer_router_hello_world,
-    test,
-)
+from dataclasses import dataclass
+from typing import TypeVar
 
-__all__: Sequence[str] = [
-    "FussballerModel",
-    "fussballer_router",
-    "fussballer_router_hello_world",
-    "test",
-]
+__all__ = ["Slice"]
+
+
+T = TypeVar("T")
+
+
+@dataclass(eq=False, slots=True, kw_only=True)
+class Slice[T]:
+    """Data class für den Ausschnitt an gefundenen Daten."""
+
+    content: tuple[T, ...]
+    """Ausschnitt der gefundenen Datensätze als Tupel beliebiger Länge."""
+
+    total_elements: int
+    """Gesamte Anzahl an Datensätzen."""

@@ -1,4 +1,4 @@
-# Copyright (C) 2023 - present Juergen Zimmermann, Hochschule Karlsruhe
+# Copyright (C) 2025 - present Juergen Zimmermann, Hochschule Karlsruhe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -12,20 +12,23 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""Modul für die REST-Schnittstelle einschließlich Validierung."""
 
-from collections.abc import Sequence
+"""Factory-Funktionen für Dependency Injection."""
 
-from fussballer.router.fussballer_model import FussballerModel
-from fussballer.router.fussballer_router import fussballer_router
-from fussballer.router.fussballer_router_helloworld import (
-    fussballer_router_hello_world,
-    test,
-)
+from fussballer.security.token_service import TokenService
+from fussballer.security.user_service import UserService
 
-__all__: Sequence[str] = [
-    "FussballerModel",
-    "fussballer_router",
-    "fussballer_router_hello_world",
-    "test",
-]
+_token_service = TokenService()  # Singleton-Objekt
+
+
+def get_token_service() -> TokenService:
+    """Factory-Funktion für TokenService."""
+    return _token_service
+
+
+_user_service = UserService()  # Singleton-Objekt
+
+
+def get_user_service() -> UserService:
+    """Factory-Funktion für UserService."""
+    return _user_service
