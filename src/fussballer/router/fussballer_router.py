@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from fussballer.repository import Pageable
 from fussballer.repository.slice import Slice
 from fussballer.router.constants import IF_NONE_MATCH_MIN_LEN, PAGE, SIZE
+from fussballer.router.dependencies import get_service
 from fussballer.router.page import Page
 from fussballer.security import Role, RolesRequired, User
 
