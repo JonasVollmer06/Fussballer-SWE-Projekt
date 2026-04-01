@@ -1,7 +1,39 @@
-"""Model-Class für das Fußballer Entity."""
+"""Pydantic-Model für die Fussballer-Daten."""
+from fussballer.entity.adresse import Adresse
+from fussballer.entity.auszeichnung import Auszeichnung
 
-__all__ = ["FussballerModel"]
+from typing import Annotated, Final, Any
+
+from pydantic import StringConstraints
+
+from fussballer.entity import Fussballer
+from fussballer.router.adresse_model import AdresseModel
+from fussballer.router.fussballer_update_model import FussballerUpdateModel
+from fussballer.router.auszeichnung_model import AuszeichnungModel
+
+__all__: list[str] = ["FussballerModel"]
 
 
-class FussballerModel:
-    """Test."""
+class FussballerModel(FussballerUpdateModel):
+    """Pydantic-Model für die Fussballer-Daten."""
+
+    adresse: AdresseModel
+    """Die Adresse des Fussballers."""
+    auszeichnungen: list[AuszeichnungModel]
+    """Die Liste der Auszeichnungen des Fussballers."""
+
+    def to_fussballer(self) -> Fussballer:
+        """Konvertierung in ein Fussballer-Objekt für SQLAlchemy.
+
+        :return: Fussballer-Objekt für SQLAlchemy
+        :rtype: Fussballer
+        """
+        fussballer_dict: dict[str, Any] = self.to_dict()
+
+        fussballer: Final = Fussballer(**fussballer_dict)
+        fussballer.adresse: Adresse = self.adresse.to_adresse()
+        fussballer.auszeichnungen: list[Auszeichnung] = [
+            auszeichnung_model.to_auszeichnung() for auszeichnung_model
+            in self.auszeichnungen
+        ]
+        return fussballer
