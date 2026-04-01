@@ -12,7 +12,7 @@ from fussballer.entity.base import Base
 from fussballer.entity.position import Position
 
 
-class Fussballer(Base):tt
+class Fussballer(Base):
     """Entity-Klasse für Fußballerdaten."""
 
     __tablename__ = "fussballer"
