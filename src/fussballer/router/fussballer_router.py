@@ -1,12 +1,15 @@
 """FußballerGetRouter."""
 
-from typing import Annotated, Final
+from dataclasses import asdict
+from typing import Annotated, Any, Final
 
 from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import JSONResponse
 
 from fussballer.repository import Pageable
+from fussballer.repository.slice import Slice
 from fussballer.router.constants import IF_NONE_MATCH_MIN_LEN, PAGE, SIZE
+from fussballer.router.page import Page
 from fussballer.security import Role, RolesRequired, User
 
 __all__: list[str] = ["fussballer_router"]
@@ -85,5 +88,41 @@ def get(
 
 @fussballer_router.get(
     "/nachname/{prefix}",
-    dependencies=[Depends(RolesRequired(Role))]
+    dependencies=[Depends(RolesRequired(Role.ADMIN))],
 )
+def get_by_nachname(
+    prefix: str,
+    service: Annotated[FussballerService, Depends(get_service)],
+) -> JSONResponse:
+    """Suche von Fussballer-Nachnamen anhand von übergebenen Teilstrings.
+
+    :param prefix: Übergebener Teilstring, zum Suchen von Fussballer-Nachnamen
+    :return: Rückgabe ist der gefundene Nachname passend zum Teilstring
+    """
+    nachnamen: Final = service.find_nachnamen(prefix)
+    return JSONResponse(content=nachnamen)
+
+
+def _fussballer_slice_to_page(
+    fussballer_slice: Slice[FussballerDTO],
+    pageable: Pageable,
+) -> dict[str, Any]:
+    fussballer_dict: Final = tuple(
+        _fussballer_to_dict(fussballer) for fussballer in fussballer_slice.content
+    )
+    page: Final = Page.create(
+        content=fussballer_dict,
+        pageable=pageable,
+        total_elements=fussballer_slice.total_elements,
+    )
+    return asdict(obj=page)
+
+
+def _fussballer_to_dict(fussballer: FussballerDTO) -> dict[str, Any]:
+    fussballer_dict: Final = asdict(obj=fussballer)
+    fussballer_dict.pop("version")
+    fussballer_dict.update({"geburtsdatum": fussballer.geburtsdatum.isoformat()})
+    """Geburtsdatum wird von einem Date-Format in einen standardisierten String
+    umgewandelt.
+    """
+    return fussballer_dict

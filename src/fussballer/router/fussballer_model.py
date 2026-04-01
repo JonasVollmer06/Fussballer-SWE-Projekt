@@ -1,15 +1,12 @@
 """Pydantic-Model für die Fussballer-Daten."""
-from fussballer.entity.adresse import Adresse
-from fussballer.entity.auszeichnung import Auszeichnung
-
-from typing import Annotated, Final, Any
-
-from pydantic import StringConstraints
+from typing import Any, Final
 
 from fussballer.entity import Fussballer
+from fussballer.entity.adresse import Adresse
+from fussballer.entity.auszeichnung import Auszeichnung
 from fussballer.router.adresse_model import AdresseModel
-from fussballer.router.fussballer_update_model import FussballerUpdateModel
 from fussballer.router.auszeichnung_model import AuszeichnungModel
+from fussballer.router.fussballer_update_model import FussballerUpdateModel
 
 __all__: list[str] = ["FussballerModel"]
 

@@ -1,13 +1,12 @@
 """Pydantic-Model zum Aktualisieren von Fussballer-Daten."""
-from ty_extensions import Unknown
-
 from datetime import date
 from typing import Annotated, Any
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, HttpUrl, StringConstraints
+from pydantic import BaseModel, ConfigDict, StringConstraints
+from ty_extensions import Unknown
 
-from fussballer.entity.position import Position
 from fussballer.entity.fussballer import Fussballer
+from fussballer.entity.position import Position
 
 __all__: list[str] = ["FussballerUpdateModel"]
 

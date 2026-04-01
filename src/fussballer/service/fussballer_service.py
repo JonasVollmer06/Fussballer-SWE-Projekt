@@ -1,8 +1,5 @@
 """Geschäftslogik zum Lesen von Fussballer-Daten."""
 
-from collections.abc import Mapping, Sequence
-from datetime import datetime
-from typing import Final
 
 __all__: list[str] = ["FussballerService"]
 
