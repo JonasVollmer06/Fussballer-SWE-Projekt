@@ -1,9 +1,8 @@
 """Pydantic-Model für die Auszeichnungen."""
-from ty_extensions import Unknown
-
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, StringConstraints
+from ty_extensions import Unknown
 
 from fussballer.entity import Auszeichnung
 
