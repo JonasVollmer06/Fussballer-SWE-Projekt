@@ -1,1 +1,1 @@
-# Fußballer-Server SWE Python Projekt
+# Fussballer-Server SWE Python Projekt
