@@ -24,5 +24,5 @@ class Role(StrEnum):
     ADMIN = "ADMIN"
     """Rolle für die Administration."""
 
-    PATIENT = "PATIENT"
+    FUSSBALLER = "FUSSBALLER"
     """Rolle registrierter Patient."""

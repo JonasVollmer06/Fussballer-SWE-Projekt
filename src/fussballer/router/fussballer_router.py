@@ -12,7 +12,7 @@ from fussballer.router.constants import IF_NONE_MATCH_MIN_LEN, PAGE, SIZE
 from fussballer.router.dependencies import get_service
 from fussballer.router.page import Page
 from fussballer.security import Role, RolesRequired, User
-from fussballer.service import FussballerService
+from fussballer.service import FussballerDTO, FussballerService
 
 __all__: list[str] = ["fussballer_router"]
 
