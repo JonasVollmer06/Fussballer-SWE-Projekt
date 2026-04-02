@@ -24,7 +24,7 @@ class AuszeichnungModel(BaseModel):
     """Die Saison."""
 
     model_config = ConfigDict(
-        json_scheme_extra={
+        json_schema_extra={
             "example": {
                 "bezeichnung": "Bundesliga-Torschützenkönig",
                 "saison": "2024/25",
