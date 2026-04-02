@@ -88,19 +88,19 @@ def get(
 
 
 @fussballer_router.get(
-    "/nachname/{prefix}",
+    "/nachname/{teil}",
     dependencies=[Depends(RolesRequired(Role.ADMIN))],
 )
 def get_by_nachname(
-    prefix: str,
+    teil: str,
     service: Annotated[FussballerService, Depends(get_service)],
 ) -> JSONResponse:
     """Suche von Fussballer-Nachnamen anhand von übergebenen Teilstrings.
 
-    :param prefix: Übergebener Teilstring, zum Suchen von Fussballer-Nachnamen
+    :param teil: Übergebener Teilstring, zum Suchen von Fussballer-Nachnamen
     :return: Rückgabe ist der gefundene Nachname passend zum Teilstring
     """
-    nachnamen: Final = service.find_nachnamen(prefix)
+    nachnamen: Final = service.find_nachnamen(teil)
     return JSONResponse(content=nachnamen)
 
 
