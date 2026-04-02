@@ -10,6 +10,8 @@ from fussballer.repository import (
     Slice,
 )
 from fussballer.security import Role, User
+from fussballer.service import FussballerDTO
+from fussballer.service.exceptions import ForbiddenError, NotFoundError
 
 __all__ = ["FussballerService"]
 
@@ -58,7 +60,7 @@ class FussballerService:
         with Session() as session:
             fussballer_slice: Final = self.repo.find(suchparameter, pageable, session)
             if len(fussballer_slice.content) == 0:
-                raise NotFoundError(suchparameter)
+                raise NotFoundError(suchparameter=suchparameter)
 
             fussballers_dto: Final = tuple(
                 FussballerDTO(fussballer) for fussballer in fussballer_slice.content

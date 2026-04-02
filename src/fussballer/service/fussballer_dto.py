@@ -5,8 +5,7 @@ from datetime import date
 
 import strawberry
 
-from fussballer.entity import Position, Fussballer
-from fussballer.service.adresse_dto import AdresseDTO
+from fussballer.entity import Fussballer, Position
 
 __all__: list[str] = ["FussballerDTO"]
 
@@ -14,14 +13,15 @@ __all__: list[str] = ["FussballerDTO"]
 @dataclass(eq=False, slots=True, kw_only=True)
 @strawberry.type
 class FussballerDTO:
-    """DTO-Klasse für die Daten von ausgelesenen oder gespeicherten Fussballern, ohne Deorators."""
+    """DTO-Klasse für die Daten ohne Deorators."""
 
     id: int
     version: int
     nachname: str
     position: Position | None
-    geburtsdstum: date
+    geburtsdatum: date
     nationalitaet: str
+    username: str | None
 
     def __init__(self, fussballer: Fussballer):
         """Initialisierung von FussballerDTO durch ein Entity-Objekt von Fussballer.
@@ -33,5 +33,8 @@ class FussballerDTO:
         self.version: int = fussballer.version
         self.nachname: str = fussballer.nachname
         self.position: Position | None = fussballer.position
-        self.geburtsdstum: date = fussballer.geburtsdatum
+        self.geburtsdatum: date = fussballer.geburtsdatum
         self.nationalitaet: str = fussballer.nationalitaet
+        self.username = (fussballer.username
+        if fussballer.username is not None else "N/A"
+        )
