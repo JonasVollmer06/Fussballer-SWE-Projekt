@@ -1,5 +1,7 @@
 """Pydantic-Model für die Fussballer-Daten."""
-from typing import Any, Final
+from typing import Annotated, Any, Final
+
+from pydantic import StringConstraints
 
 from fussballer.entity import Fussballer
 from fussballer.entity.adresse import Adresse
@@ -18,6 +20,8 @@ class FussballerModel(FussballerUpdateModel):
     """Die Adresse des Fussballers."""
     auszeichnungen: list[AuszeichnungModel]
     """Die Liste der Auszeichnungen des Fussballers."""
+    username: Annotated[str, StringConstraints(max_length=20)]
+    """Der Benutzername für Login."""
 
     def to_fussballer(self) -> Fussballer:
         """Konvertierung in ein Fussballer-Objekt für SQLAlchemy.
@@ -26,6 +30,7 @@ class FussballerModel(FussballerUpdateModel):
         :rtype: Fussballer
         """
         fussballer_dict: dict[str, Any] = self.to_dict()
+        fussballer_dict["username"] = self.username
 
         fussballer: Final = Fussballer(**fussballer_dict)
         fussballer.adresse: Adresse = self.adresse.to_adresse()

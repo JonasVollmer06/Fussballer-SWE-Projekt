@@ -1,5 +1,4 @@
 """Geschäftslogik zum Lesen von Fussballer-Daten."""
-from werkzeug.exceptions import NotFound
 
 from collections.abc import Mapping, Sequence
 from typing import Final
@@ -58,7 +57,7 @@ class FussballerService:
         """
         with Session() as session:
             fussballer_slice: Final = self.repo.find(suchparameter, pageable, session)
-            if len(patient_slice.content) == 0:
+            if len(fussballer_slice.content) == 0:
                 raise NotFoundError(suchparameter)
 
             fussballers_dto: Final = tuple(
@@ -69,18 +68,18 @@ class FussballerService:
         return Slice(content=fussballers_dto,
             total_elements=fussballer_slice.total_elements)
 
+    def find_nachnamen(self, teil: str) -> Sequence[str]:
+        """Suche einen passenden Fussballer Nachname zu einem gegebenen Teilstring.
 
-def find_nachnamen(self, teil: str) -> Sequence[str]:
-    """Suche einen passenden Fussballer Nachname zu einem gegebenen Teilstring.
+        :return: Eine Sqeuenz mit den gefundenen Nachnamen, da eine Sequenz allgemeiner
+        als eine Liste ist und man sich somit nicht unnötiger weiße konkret auf eine
+        Liste.
+        """
+        with Session() as session:
+            nachnamen: Final = self.repo.find_nachnamen(teil, session)
+            session.commit()
 
-    :return: Eine Sqeuenz mit den gefundenen Nachnamen, da eine Sequenz allgemeiner
-    als eine Liste ist und man sich somit nicht unnötiger weiße konkret auf eine Liste.
-    """
-    with Session() as session:
-        nachnamen: Final = self.repo.find.find_nachnamen(teil, session)
-        session.commit()
+            if len(nachnamen) == 0:
+                raise FileNotFoundError
 
-        if len(nachnamen) == 0:
-            raise FileNotFoundError
-
-        return nachnamen
+            return nachnamen
