@@ -12,6 +12,7 @@ from fussballer.router.constants import IF_NONE_MATCH_MIN_LEN, PAGE, SIZE
 from fussballer.router.dependencies import get_service
 from fussballer.router.page import Page
 from fussballer.security import Role, RolesRequired, User
+from fussballer.service import FussballerService
 
 __all__: list[str] = ["fussballer_router"]
 
@@ -34,7 +35,7 @@ def get_by_id(
     """
     user: Final[User] = request.state.current_user
 
-    fussballer: Final = service.find_by_id(user, fussballer_id)
+    fussballer: Final = service.find_by_id(fussballer_id, user)
 
     if_none_match: Final = request.headers.get("if-none-match")
 
@@ -88,19 +89,19 @@ def get(
 
 
 @fussballer_router.get(
-    "/nachname/{prefix}",
+    "/nachname/{teil}",
     dependencies=[Depends(RolesRequired(Role.ADMIN))],
 )
-def get_by_nachname(
-    prefix: str,
+def get_nachname(
+    teil: str,
     service: Annotated[FussballerService, Depends(get_service)],
 ) -> JSONResponse:
     """Suche von Fussballer-Nachnamen anhand von übergebenen Teilstrings.
 
-    :param prefix: Übergebener Teilstring, zum Suchen von Fussballer-Nachnamen
+    :param teil: Übergebener Teilstring, zum Suchen von Fussballer-Nachnamen
     :return: Rückgabe ist der gefundene Nachname passend zum Teilstring
     """
-    nachnamen: Final = service.find_nachnamen(prefix)
+    nachnamen: Final = service.find_nachnamen(teil=teil)
     return JSONResponse(content=nachnamen)
 
 

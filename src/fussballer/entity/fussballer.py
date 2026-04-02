@@ -29,6 +29,9 @@ class Fussballer(Base):
     nationalitaet: Mapped[str]
     """Herkunft des Fußballspielers(Geburtsort)."""
 
+    username: Mapped[str | None]
+    """Login Benutzername."""
+
     id: Mapped[int | None] = mapped_column(
         Identity(start=100),
         primary_key=True,
@@ -88,5 +91,6 @@ class Fussballer(Base):
             f"Fussballer(id={self.id}, version={self.version}, "
             + f"nachname={self.nachname}, position={self.position}, "
             + f"geburtsdatum={self.geburtsdatum}, nationalitaet={self.nationalitaet}, "
+            + f"username={self.username}, "
             + f"erzeugt={self.erzeugt}, aktualisiert={self.aktualisiert})"
         )
