@@ -1,6 +1,7 @@
 """Geschäftslogik für das Schreiben von Fussballer-Daten."""
 
 from typing import Final
+
 from fussballer.entity import Fussballer
 from fussballer.repository import FussballerRepository, Session
 from fussballer.security import User, UserService
