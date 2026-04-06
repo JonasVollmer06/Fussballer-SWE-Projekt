@@ -3,13 +3,40 @@
 from collections.abc import Mapping
 
 __all__ = [
+    "EmailExistsError",
     "ForbiddenError",
     "NotFoundError",
+    "UsernameExistsError",
+    "VersionOutdatedError",
     ]
+
+
+class EmailExistsError(Exception):
+    """Exception, falls die Emailadresse bereits existiert."""
+
+    def __init__(self, email: str) -> None:
+        """Initialisierung von EmailExistsError mit der Emailadresse.
+
+        :param email: Bereits existierende Emailadresse
+        """
+        super().__init__(f"Existierende Email: {email}")
+        self.email = email
 
 
 class ForbiddenError(Exception):
     """Eine Ausnahme wenn der Zugriff abgelehnt wird."""
+
+
+class UsernameExistsError(Exception):
+    """Exception, falls der Benutzername bereits existiert."""
+
+    def __init__(self, username: str | None) -> None:
+        """Initialisierung von UsernameExistsError mit dem Benutzernamen.
+
+        :param username: Bereits existierender Benutzername
+        """
+        super().__init__(f"Existierender Benutzername: {username}")
+        self.username = username
 
 
 class NotFoundError(Exception):
@@ -24,3 +51,15 @@ class NotFoundError(Exception):
         super().__init__("Not Found")
         self.fussballer_id = fussballer_id
         self.suchparameter = suchparameter
+
+
+class VersionOutdatedError(Exception):
+    """Exception, falls die Versionsnummer beim Aktualisieren veraltet ist."""
+
+    def __init__(self, version: int) -> None:
+        """Initialisierung von VersionOutdatedError mit veralteter Versionsnummer.
+
+        :param version: Veraltete Versionsnummer
+        """
+        super().__init__(f"Veraltete Version: {version}")
+        self.version = version
