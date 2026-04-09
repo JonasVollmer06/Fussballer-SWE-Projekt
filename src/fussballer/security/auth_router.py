@@ -1,9 +1,9 @@
 """REST-Schnittstelle für Login, um aus Anmeldedaten einen Token zu erstellen."""
 
 from json import JSONDecodeError
-from typing import Any, Annotated, Final
+from typing import Annotated, Any, Final
 
-from fastapi import APIRouter, Request, Response, status, Depends
+from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import JSONResponse
 
 from fussballer.security.login_data import LoginData
