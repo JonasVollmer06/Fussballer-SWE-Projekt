@@ -11,7 +11,6 @@ from fussballer.service.fussballer_service import FussballerService
 from fussballer.service.fussballer_write_service import FussballerWriteService
 
 
-
 def get_repository() -> FussballerRepository:
     """Factory-Funktion für FussballerRepository."""
     return FussballerRepository()
