@@ -8,8 +8,8 @@ from jwcrypto.common import JWException
 from keycloak import KeycloakAuthenticationError, KeycloakOpenID
 
 from fussballer.config import keycloak_config
-from fussballer.secrurity.role import Role
 from fussballer.security.exceptions import AuthorizationError, LoginError
+from fussballer.security.role import Role
 from fussballer.security.user import User
 
 __all__ = ["TokenService"]
