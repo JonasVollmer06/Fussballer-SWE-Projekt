@@ -1,4 +1,4 @@
-"""Modul für persistente Patientendaten."""
+"""Modul für persistente Fussballerdaten."""
 
 from fussballer.entity.adresse import Adresse
 from fussballer.entity.auszeichnung import Auszeichnung
@@ -11,5 +11,6 @@ __all__ = [
     "Adresse",
     "Auszeichnung",
     "Base",
-    "Fussballer", "Position",
+    "Fussballer",
+    "Position",
 ]
