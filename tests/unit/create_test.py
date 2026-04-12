@@ -41,9 +41,9 @@ def test_create(
     fussballer = Fussballer(
         id=None,
         email=email,
-        nachname="Mocktest"
+        nachname="Mocktest",
         nationalitaet="DE",
-        position=Position.STURMER,
+        position=Position.STUERMER,
         username="mocktest",
         adresse=adresse,
         auszeichnungen=[],
@@ -73,5 +73,3 @@ def test_create(
 
     # Assert
     assert fussballer_dto.id == generierte_id
-
-
