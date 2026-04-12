@@ -11,8 +11,8 @@ from fussballer.service.exceptions import (
     UsernameExistsError,
     VersionOutdatedError,
 )
-from fussballer.service.mailer import send_mail
 from fussballer.service.fussballer_dto import FussballerDTO
+from fussballer.service.mailer import send_mail
 
 __all__: list[str] = ["FussballerWriteService"]
 
