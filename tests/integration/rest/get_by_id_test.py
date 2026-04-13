@@ -51,3 +51,30 @@ def test_get_by_id_not_found() -> None:
 
     # assert
     assert response.status_code == HTTPStatus.NOT_FOUND
+
+
+@mark.rest
+@mark.get_request
+def test_get_by_id_fussballer() -> None:
+    # arrange
+    fussballer_id: Final = 20
+    token: Final = login(username="mocktest")
+    assert token is not None
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # act
+    response: Final = get(
+        f"{rest_url}/{fussballer_id}",
+        headers=headers,
+        verify=ctx,
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.OK
+    response_body: Final = response.json()
+    assert isinstance(response_body, dict)
+    id_actual: Final = response_body.get("id")
+    assert id_actual is not None
+    assert id_actual == fussballer_id
+
+    
