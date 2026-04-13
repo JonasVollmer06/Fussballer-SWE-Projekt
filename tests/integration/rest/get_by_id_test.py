@@ -96,3 +96,23 @@ def test_get_by_id_not_allowed(fussballer_id: int) -> None:
 
     # assert
     assert response.status_code == HTTPStatus.FORBIDDEN
+
+
+@mark.rest
+@mark.get_request
+def test_get_by_id_invalid_type() -> None:
+    # arrange
+    invalid_id = "abc"
+    token: Final = login()
+    assert token is not None
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # act
+    response: Final = get(
+        f"{rest_url}/{invalid_id}",
+        headers=headers,
+        verify=ctx,
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
