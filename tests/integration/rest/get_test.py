@@ -86,3 +86,21 @@ def test_get_by_nachname(teil : str) -> None:
         assert nachname is not None and isinstance(nachname, str)
         assert teil.lower() in nachname.lower()
         assert f.get("id") is not None
+
+
+
+@mark.rest
+@mark.get_request
+@mark.parametrize("nachname", ["GibtEsNicht", "Foo_bar"])
+def test_get_by_nachname_not_found(nachname: str) -> None:
+    # arrange
+    params = {"nachname": nachname}
+    token: Final = login()
+    assert token is not None
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # act
+    response: Final = get(rest_url, params=params, headers=headers, verify=ctx)
+
+    #assert
+    assert response.status_code == HTTPStatus.NOT_FOUND
