@@ -1,0 +1,53 @@
+"""Tests für GET mit Pfadparameter für die ID."""
+
+from http import HTTPStatus
+from typing import Final
+
+from common_test import ctx, login, rest_url
+from httpx import get
+from pytest import mark
+
+
+@mark.rest
+@mark.get_request
+@mark.parametrize("fussballer_id", [30, 2, 20])
+def test_get_by_id_admin(fussballer_id: int) -> None:
+    # arrange
+    token: Final = login()
+    assert token is not None
+    headers: Final = {"Authorization": f"Bearer {token}"}
+
+    # act
+    response: Final = get(
+        f"{rest_url}/{fussballer_id}",
+        headers=headers,
+        verify=ctx,
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.OK
+    response_body: Final = response.json()
+    assert isinstance(response_body, dict)
+    id_actual: Final = response_body.get("id")
+    assert id_actual is not None
+    assert id_actual == fussballer_id
+
+
+@mark.rest
+@mark.get_request
+def test_get_by_id_not_found() -> None:
+    # arrange
+    fussballer_id: Final = 999999
+    token: Final = login()
+    assert token is not None
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # act
+    response: Final = get(
+        f"{rest_url}/{fussballer_id}",
+        headers=headers,
+        verify=ctx,
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.NOT_FOUND
