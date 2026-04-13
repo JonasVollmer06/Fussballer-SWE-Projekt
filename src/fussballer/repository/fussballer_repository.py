@@ -155,7 +155,7 @@ class FussballerRepository:
 
         return fussballer
 
-    def upadte(self, fussballer: Fussballer, session: Session) -> Fussballer | None:
+    def update(self, fussballer: Fussballer, session: Session) -> Fussballer | None:
         """Ändern der Daten eines Fussballer-Objektes.
 
         :return: Das aktualisierte Fussballer-Objekt oder None wenn
