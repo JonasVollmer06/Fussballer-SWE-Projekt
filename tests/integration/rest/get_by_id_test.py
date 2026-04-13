@@ -77,4 +77,22 @@ def test_get_by_id_fussballer() -> None:
     assert id_actual is not None
     assert id_actual == fussballer_id
 
-    
+
+@mark.rest
+@mark.get_request
+@mark.parametrize("fussballer_id", [1, 30])
+def test_get_by_id_not_allowed(fussballer_id: int) -> None:
+    # arrange
+    token: Final = login(username="mocktest")
+    assert token is not None
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # act
+    response: Final = get(
+        f"{rest_url}/{fussballer_id}",
+        headers=headers,
+        verify=ctx,
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.FORBIDDEN
