@@ -2,13 +2,20 @@
 
 from collections.abc import Sequence
 
-from fussballer.graphql_api import graphql_router
+from fussballer.graphql_api.graphql_types import (
+    AdresseInput,
+    AuszeichnungInput,
+    CreatePayload,
+    FussballerInput,
+)
+from fussballer.graphql_api.schema import Mutation, Query, graphql_router
 
 __all__: Sequence[str] = [
-    "graphql_router",
+    "AdresseInput",
+    "AuszeichnungInput",
     "CreatePayload",
+    "FussballerInput",
     "Mutation",
     "Query",
-    "AuszeichnungInput",
-    ""
+    "graphql_router"
 ]
