@@ -39,4 +39,24 @@ def test_get_by_email(email: str) -> None:
     assert fussballer.get("email") == email
     assert fussballer.get("id") is not None
 
-    
+
+@mark.rest
+@mark.get_request
+@mark.parametrize("email", ["gibt.es.nicht@test.com", "nobody@acme.de"])
+def test_get_by_email_not_found(email: str) -> None:
+    # arrange
+    params = {"email": email}
+    token: Final = login()
+    assert token is not None
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # act
+    response: Final = get(
+        rest_url,
+        params=params,
+        headers=headers,
+        verify=ctx
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.NOT_FOUND
