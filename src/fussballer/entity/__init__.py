@@ -11,5 +11,6 @@ __all__ = [
     "Adresse",
     "Auszeichnung",
     "Base",
-    "Fussballer", "Position",
+    "Fussballer",
+    "Position",
 ]
