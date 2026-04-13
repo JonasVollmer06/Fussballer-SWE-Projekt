@@ -60,3 +60,29 @@ def test_get_by_email_not_found(email: str) -> None:
 
     # assert
     assert response.status_code == HTTPStatus.NOT_FOUND
+
+
+@mark.rest
+@mark.get_request
+@mark.parametrize("teil", ["Mock", "test"])
+def test_get_by_nachname(teil : str) -> None:
+    # arrange
+    params = {"nachname": teil}
+    token: Final = login()
+    assert token is not None
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # act
+    response: Final = get(rest_url, params=params, headers=headers, verify=ctx)
+
+    # assert
+    assert response.status_code == HTTPStatus.OK
+    response_body: Final = response.json()
+    assert isinstance(response_body, dict)
+    content: Final = response_body["content"]
+
+    for f in content:
+        nachname = f.get("nachname")
+        assert nachname is not None and isinstance(nachname, str)
+        assert teil.lower() in nachname.lower()
+        assert f.get("id") is not None
