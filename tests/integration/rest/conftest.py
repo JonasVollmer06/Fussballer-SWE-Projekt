@@ -5,8 +5,17 @@ from pytest import fixture
 
 session_scope = "session"
 
+
 @fixture(scope=session_scope, autouse=True)
 def check_readiness_per_session() -> None:
     check_readiness()
     print("Appserver ist 'bereit'")
 
+
+@fixture(scope=session_scope, autouse=True)
+def populate_per_session() -> None:
+    """Fixture, um die DB und Keycloak neu zu laden."""
+    db_populate()
+    print("DB ist neu geladen")
+    keycloak_populate()
+    print("Keycloak ist neu geladen")
