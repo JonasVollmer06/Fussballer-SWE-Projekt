@@ -6,7 +6,6 @@ from fussballer.entity import Fussballer
 from fussballer.repository import FussballerRepository, Session
 from fussballer.security import User, UserService
 from fussballer.service.exceptions import (
-    EmailExistsError,
     NotFoundError,
     UsernameExistsError,
     VersionOutdatedError,
@@ -39,24 +38,17 @@ class FussballerWriteService:
         if self.user_service.username_exists(username):
             raise UsernameExistsError(username)
 
-        email: Final = fussballer.email
-        if self.user_service.email_exists(email):
-            raise EmailExistsError(email=email)
-
         user: Final = User(
             username=username,
-            email=fussballer.email,
+            email=f"{username}@acme.invalid",
             vorname=fussballer.nachname,
             nachname=fussballer.nachname,
-            password="p",
+            password="p",  # noqa: S106 # NOSONAR
             roles=[],
         )
         self.user_service.create_user(user)
 
         with Session() as session:
-            if self.repo.exists_email(email=email, session=session):
-                raise EmailExistsError(email=email)
-
             fussballer_db: Final = self.repo.create(
                 fussballer=fussballer, session=session
                 )
@@ -78,7 +70,6 @@ class FussballerWriteService:
         :rtype: FussballerDTO
         :raises NotFoundError: Fussballer existiert nicht
         :raises VersionOutdatedError: Falls die Versionsnummer nicht aktuell ist
-        :raises EmailExistsError: Falls die Emailadresse bereits existiert
         """
         with Session() as session:
             if (
@@ -90,17 +81,11 @@ class FussballerWriteService:
             if fussballer_db.version > version:
                 raise VersionOutdatedError(version)
 
-            email: Final = fussballer.email
-            if email != fussballer_db.email and self.repo.exists_email_others_id(
-                fussballer_id=fussballer_id,
-                email=email,
-                session=session,
-            ):
-                raise EmailExistsError(email)
-
             fussballer_db.set(fussballer)
             if (
-                fussballer_updated := self.repo.update(fussballer=fussballer_db, session=session)
+                fussballer_updated := self.repo.update(
+                    fussballer=fussballer_db, session=session
+                )
             ) is None:
                 raise NotFoundError(fussballer_id=fussballer_id)
             fussballer_dto: Final = FussballerDTO(fussballer_updated)

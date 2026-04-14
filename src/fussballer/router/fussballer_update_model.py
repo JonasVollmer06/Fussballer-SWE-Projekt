@@ -3,7 +3,6 @@ from datetime import date
 from typing import Annotated, Any
 
 from pydantic import BaseModel, ConfigDict, StringConstraints
-from ty_extensions import Unknown
 
 from fussballer.entity.fussballer import Fussballer
 from fussballer.entity.position import Position
@@ -52,7 +51,7 @@ class FussballerUpdateModel(BaseModel):
         :return: Dictionary mit den primitiven Fussballer-Attributen
         :rtype: dict[str, Any]
         """
-        fussballer_dict: Unknown = self.model_dump()
+        fussballer_dict = self.model_dump()
         fussballer_dict["id"] = None
         fussballer_dict["adresse"] = None
         fussballer_dict["auszeichnungen"] = []
