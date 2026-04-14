@@ -63,7 +63,6 @@ def test_find_by_id_admin_success(
     adresse_mock.fussballer = fussballer_mock
     fussballer_dto_mock = FussballerDTO(fussballer=fussballer_mock)
 
-    # session.scalar(select(Fussballer)...)
     session_mock.scalar.return_value = fussballer_mock
 
     # Act
@@ -78,7 +77,6 @@ def test_find_by_id_admin_success(
 @mark.unit
 @mark.unit_find_by_id
 def test_find_by_id_success(fussballer_service: FussballerService, session_mock) -> None:
-    """Szenario 1: Erfolgreiches Abrufen des eigenen Profils."""
     # Arrange
     fussballer_id = 1
     username = "mocktest"
@@ -112,7 +110,6 @@ def test_find_by_id_success(fussballer_service: FussballerService, session_mock)
     )
     adresse_mock.fussballer: Fussballer = fussballer_mock
     fussballer_dto_mock = FussballerDTO(fussballer=fussballer_mock)
-    # session.scalar(select(Fussballer)...)
     session_mock.scalar.return_value = fussballer_mock
 
     # Act
@@ -154,7 +151,6 @@ def test_find_by_id_not_found(fussballer_service: FussballerService, session_moc
 def test_find_by_id_not_found_admin(
     fussballer_service: FussballerService, session_mock
     ) -> None:
-    """Szenario 3: Zugriff wird wegen fehlender Rollen direkt verweigert."""
     # Arrange
     fussballer_id = 999
     user_mock = User(
@@ -165,7 +161,6 @@ def test_find_by_id_not_found_admin(
         roles=[],
         password="p"
     )
-    # session.scalar(select(Fussballer)...)
     session_mock.scalar.return_value = None
 
     # Act
