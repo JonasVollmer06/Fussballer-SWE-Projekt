@@ -29,7 +29,6 @@ def test_create(
     fussballer_write_service, session_mock, keycloak_admin_mock, mocker
 ) -> None:
     # Arrange
-    email = "mock@email.test"
     adresse = Adresse(
         id=999,
         plz="12345",
@@ -40,7 +39,6 @@ def test_create(
     )
     fussballer = Fussballer(
         id=None,
-        email=email,
         nachname="Mocktest",
         nationalitaet="DE",
         position=Position.STUERMER,

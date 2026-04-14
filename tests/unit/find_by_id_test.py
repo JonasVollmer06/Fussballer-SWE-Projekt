@@ -57,7 +57,6 @@ def test_find_by_id_admin_success(
         nationalitaet="DE",
         position=Position.STUERMER,
         username=username_spieler,
-        email="spieler@test.de",
         adresse=adresse_mock,
         auszeichnungen=[]
     )
@@ -108,7 +107,6 @@ def test_find_by_id_success(fussballer_service: FussballerService, session_mock)
         nationalitaet="DE",
         position=Position.STUERMER,
         username=username,
-        email="mock@test.de",
         adresse=adresse_mock,
         auszeichnungen=[]
     )
