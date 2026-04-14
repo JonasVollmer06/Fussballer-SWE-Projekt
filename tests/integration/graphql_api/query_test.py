@@ -120,3 +120,34 @@ def test_query_nachname() -> None:
     assert isinstance(fussballer_liste, list)
     assert len(fussballer_liste) > 0
     assert response_body.get("errors") is None
+
+
+@mark.graphql
+@mark.query
+def test_query_nachname_notfound() -> None:
+    # arrange
+    token: Final = login_graphql()
+    assert token is not None
+    headers: Final = {"Authorization": f"Bearer {token}"}
+
+    query: Final = {
+        "query": """
+            {
+                fussballerListe(suchparameter: {nachname: "Nichtvorhanden"}) {
+                    id
+                }
+            }
+        """,
+    }
+
+    # act
+    response: Final = post(graphql_url, json=query, headers=headers, verify=ctx)
+
+    # assert
+    assert response.status_code == HTTPStatus.OK
+    response_body: Final = response.json()
+    assert isinstance(response_body, dict)
+    fussballer_liste: Final = response_body["data"]["fussballerListe"]
+    assert isinstance(fussballer_liste, list)
+    assert len(fussballer_liste) == 0
+    assert response_body.get("errors") is None
