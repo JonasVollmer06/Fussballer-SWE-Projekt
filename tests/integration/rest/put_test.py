@@ -42,3 +42,40 @@ def test_put() -> None:
     # assert
     assert response.status_code == HTTPStatus.NO_CONTENT
     assert not response.text
+
+
+@mark.rest
+@mark.put_request
+def test_put_invalid() -> None:
+    # arrange
+    fussballer_id: Final = 1
+    geaenderter_fussballer_invalid: Final = {
+        "nachname": "falscher_nachname_123",
+        "nationalitaet": "Deutschland",
+        "position": "FALSCHE_POSITION",
+        "username": "testrestinvalid",
+        "adresse": {"plz": "12", "ort": "Restort", "bundesland": "Restland"},
+        "auszeichnungen": []
+    }
+    token: Final = login()
+    assert token is not None
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "If-Match": '"0"',
+    }
+
+    # act
+    response: Final = put(
+        f"{rest_url}/{fussballer_id}",
+        json=geaenderter_fussballer_invalid,
+        headers=headers,
+        verify=ctx,
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
+    body = response.text
+    assert "position" in body
+    assert "plz" in body
+
+    
