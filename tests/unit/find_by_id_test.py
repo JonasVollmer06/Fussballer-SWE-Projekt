@@ -1,3 +1,4 @@
+# ruff: noqa: S101, S106, D103, ARG005
 """Unit-Tests für find_by_id() von FussballerService."""
 
 from dataclasses import asdict

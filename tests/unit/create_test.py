@@ -1,3 +1,4 @@
+# ruff: noqa: S101, D103, ARG005
 """Unit-Tests für create() von FussbapperWriteService."""
 
 from copy import deepcopy
@@ -7,9 +8,6 @@ from pytest_mock import MockerFixture
 
 
 from fussballer.entity import Adresse, Fussballer, Position
-from fussballer.service import EmailExistsError, UsernameExistsError
-
-
 @fixture
 def session_mock(mocker: MockerFixture):
     session = mocker.Mock()

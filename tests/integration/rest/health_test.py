@@ -1,3 +1,4 @@
+# ruff: noqa: S101, D103
 """Tests für GET mit QUery-Parameter."""
 
 from http import HTTPStatus

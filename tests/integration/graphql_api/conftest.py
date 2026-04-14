@@ -1,3 +1,4 @@
+# ruff: noqa: D103
 """Fixture für pytest: Neuladen der Datenbank."""
 
 from common_test import check_readiness, db_populate, keycloak_populate

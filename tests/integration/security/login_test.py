@@ -1,3 +1,4 @@
+# ruff: noqa: S101, D103
 """Tests für Login."""
 
 from http import HTTPStatus
