@@ -79,12 +79,12 @@ class KeycloakPopulateService:
                     kopfzeile = False
                     continue
 
-                username = row[11]
+                username = row[6]
                 if username == "admin":
                     continue
 
-                email = row[3]
                 nachname = row[2]
+                email = f"{username}@acme.com"
                 user = User(
                     username=username,
                     email=email,
