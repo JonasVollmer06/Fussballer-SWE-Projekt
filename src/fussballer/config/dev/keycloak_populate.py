@@ -79,12 +79,12 @@ class KeycloakPopulateService:
                     kopfzeile = False
                     continue
 
-                username = row[11]
+                username = row[6]
                 if username == "admin":
                     continue
 
-                email = row[3]
                 nachname = row[2]
+                email = f"{username}@acme.com"
                 user = User(
                     username=username,
                     email=email,
@@ -94,7 +94,7 @@ class KeycloakPopulateService:
                     password="p",  # noqa: S106 # NOSONAR
                 )
                 self.user_service.create_user(user=user)
-        logger.debug("Alle User zu 'patient.csv' neu angelegt")
+        logger.debug("Alle User zu 'fussballer.csv' neu angelegt")
 
 
 def get_keycloak_populate_service(
