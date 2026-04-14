@@ -122,7 +122,7 @@ def test_put_username_exists() -> None:
     geaenderter_fussbller: Final = {
         "nachname": "Mockput",
         "nationalitaet": "DE",
-        "position": "MITTELFELD",
+        "position": "MITTELFELDSPIELER",
         "username": username_exists,
         "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},
         "auszeichnungen": []
