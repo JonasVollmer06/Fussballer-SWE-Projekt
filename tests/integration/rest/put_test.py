@@ -19,7 +19,7 @@ def test_put() -> None:
     geaenderter_fussballer: Final = {
         "nachname": "Mockput",
         "nationalitaet": "DE",
-        "position": "MITTELFELD",
+        "position": "MITTELFELDSPIELER",
         "username": USERNAME_UPDATE,
         "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},
         "auszeichnungen": []
@@ -78,4 +78,35 @@ def test_put_invalid() -> None:
     assert "position" in body
     assert "plz" in body
 
-    
+
+@mark.rest
+@mark.put_request
+def test_put_nicht_vorhanden() -> None:
+    # arrange
+    fussballer_id: Final = 999999
+    if_match: Final = '"0"'
+    geaenderter_fussballer: Final = {
+        "nachname": "Mockput",
+        "nationalitaet": "DE",
+        "position": "MITTELFELDSPIELER",
+        "username": USERNAME_UPDATE,
+        "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},
+        "auszeichnungen": []
+    }
+    token: Final = login()
+    assert token is not None
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "If-Match": if_match,
+    }
+
+    # act
+    response: Final = put(
+        f"{rest_url}/{fussballer_id}",
+        json=geaenderter_fussballer,
+        headers=headers,
+        verify=ctx,
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.NOT_FOUND
