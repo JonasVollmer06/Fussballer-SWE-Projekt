@@ -45,3 +45,33 @@ def test_post() -> None:
     int_pattern: Final = "[1-9][0-9]*$"
     assert search(int_pattern, location) is not None
     assert not response.text
+
+
+@mark.rest
+@mark.post_request
+def test_post_invalid() -> None:
+    # arrange
+    neuer_fussballer_invalid: Final = {
+        "nachname": "falscher_nachname_123",
+        "nationalitaet": "DE",
+        "position": "FALSCHE_POSITION",
+        "username": "testrestinvalid",
+        "adresse": {"plz": "1234", "ort": "Restort", "bundesland": "Restland"}, # PLZ zu kurz
+        "auszeichnungen": []
+    }
+    headers = {"Content-Type": "application/json"}
+
+    # act
+    response: Final = post(
+        rest_url,
+        json=neuer_fussballer_invalid,
+        headers=headers,
+        verify=ctx,
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
+    body = response.text
+    assert "position" in body
+    assert "plz" in body
+
