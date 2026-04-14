@@ -94,7 +94,7 @@ class KeycloakPopulateService:
                     password="p",  # noqa: S106 # NOSONAR
                 )
                 self.user_service.create_user(user=user)
-        logger.debug("Alle User zu 'patient.csv' neu angelegt")
+        logger.debug("Alle User zu 'fussballer.csv' neu angelegt")
 
 
 def get_keycloak_populate_service(
