@@ -110,3 +110,38 @@ def test_put_nicht_vorhanden() -> None:
 
     # assert
     assert response.status_code == HTTPStatus.NOT_FOUND
+
+
+@mark.rest
+@mark.put_request
+def test_put_username_exists() -> None:
+    # arrange
+    fussballer_id: Final = 1
+    if_match: Final = '"0"'
+    username_exists: Final = "admin_user"
+    geaenderter_fussbller: Final = {
+        "nachname": "Mockput",
+        "nationalitaet": "DE",
+        "position": "MITTELFELD",
+        "username": username_exists,
+        "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},
+        "auszeichnungen": []
+    }
+    token: Final = login()
+    assert token is not None
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "If-Match": if_match,
+    }
+
+    # act
+    response: Final = put(
+        f"{rest_url}/{fussballer_id}",
+        json=geaenderter_fussbller,
+        headers=headers,
+        verify=ctx,
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
+    assert username_exists in response.text
