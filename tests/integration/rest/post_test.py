@@ -1,4 +1,5 @@
 """Test für POST."""
+from sqlalchemy.util import NONE_SET
 
 from http import HTTPStatus
 from re import search
@@ -75,3 +76,30 @@ def test_post_invalid() -> None:
     assert "position" in body
     assert "plz" in body
 
+
+@mark.rest
+@mark.post_request
+def test_post_username_exists() -> None:
+    # arrange
+    username_exists: Final = "admin_user"
+    neuer_fussballer: Final = {
+        "nachname": "NachnameExists",
+        "nationalitaet": "DE",
+        "position": "TORWART",
+        "username": username_exists,
+        "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},
+        "auszeichnungen": []
+    }
+    headers = {"Content-Type": "application/json"}
+
+    # act
+    response: Final = post(
+        rest_url,
+        json=neuer_fussballer,
+        headers=headers,
+        verify=ctx,
+    )
+
+    # assert
+    assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
+    assert username_exists in response.text
