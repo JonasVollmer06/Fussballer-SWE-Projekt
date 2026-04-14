@@ -19,6 +19,6 @@
 -- https://www.postgresql.org/docs/current/ddl-schemas.html
 -- https://www.postgresql.org/docs/current/ddl-schemas.html#DDL-SCHEMAS-CREATE
 -- "user-private schema" (Default-Schema: public)
-CREATE SCHEMA IF NOT EXISTS AUTHORIZATION patient;
+CREATE SCHEMA IF NOT EXISTS AUTHORIZATION fussballer;
 
-ALTER ROLE patient SET search_path = 'patient';
+ALTER ROLE fussballer SET search_path = 'fussballer';
