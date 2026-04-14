@@ -1,3 +1,4 @@
+# ruff: noqa: S101, D103
 """Tests für Queries mit GraphQL."""
 
 from http import HTTPStatus
