@@ -1,3 +1,5 @@
+# ruff: noqa: S101, D103
+
 """Tests für PUT."""
 
 from http import HTTPStatus

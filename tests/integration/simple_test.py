@@ -1,3 +1,4 @@
+# ruff: noqa: S101, D103
 """Einfache Tests mit pytest."""
 
 from pytest import mark

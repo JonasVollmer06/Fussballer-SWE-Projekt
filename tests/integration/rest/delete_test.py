@@ -1,3 +1,4 @@
+# ruff: noqa: S101, D103
 """Tests für DELETE."""
 
 from typing import Final
@@ -24,7 +25,7 @@ def test_delete() -> None:
     )
 
     # assert
-    assert response.status_code == 204
+    assert response.status_code == 204  # noqa: PLR2004
 
 
 @mark.rest
@@ -44,4 +45,4 @@ def test_delete_not_found() -> None:
     )
 
     # assert
-    assert response.status_code == 204
+    assert response.status_code == 204  # noqa: PLR2004

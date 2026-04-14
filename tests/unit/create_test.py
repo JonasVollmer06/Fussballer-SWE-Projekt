@@ -1,3 +1,4 @@
+# ruff: noqa: S101, D103, ARG005
 """Unit-Tests für create() von FussbapperWriteService."""
 
 from copy import deepcopy

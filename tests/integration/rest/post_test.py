@@ -1,3 +1,4 @@
+# ruff: noqa: S101, D103
 """Test für POST."""
 from sqlalchemy.util import NONE_SET
 
@@ -57,7 +58,7 @@ def test_post_invalid() -> None:
         "nationalitaet": "DE",
         "position": "FALSCHE_POSITION",
         "username": "testrestinvalid",
-        "adresse": {"plz": "1234", "ort": "Restort", "bundesland": "Restland"}, # PLZ zu kurz
+        "adresse": {"plz": "1234", "ort": "Restort", "bundesland": "Restland"},
         "auszeichnungen": []
     }
     headers = {"Content-Type": "application/json"}
