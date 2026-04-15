@@ -149,7 +149,7 @@ def test_find_by_id_not_found(fussballer_service: FussballerService, session_moc
 
 @mark.unit
 @mark.unit_find_by_id
-def test_find_by_id_not_found_admin(
+def test_find_by_id_forbidden(
     fussballer_service: FussballerService, session_mock
     ) -> None:
     # Arrange

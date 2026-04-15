@@ -1,5 +1,5 @@
 # ruff: noqa: S101, D103, ARG005
-"""Unit-Tests für create() von FussbapperWriteService."""
+"""Unit-Tests für create() von FussballerWriteService."""
 
 from copy import deepcopy
 
@@ -15,14 +15,14 @@ def session_mock(mocker: MockerFixture):
         "fussballer.service.fussballer_write_service.Session",
         return_value=mocker.MagicMock(
             __enter__=lambda self: session,
-            __exit__=lambda self, ecx_type, exc, tb: None,
+            __exit__=lambda self, exc_type, exc, tb: None,
         ),
     )
     return session
 
 
 @mark.unit
-@mark.unit_ceate
+@mark.unit_create
 def test_create(
     fussballer_write_service, session_mock, keycloak_admin_mock, mocker
 ) -> None:
