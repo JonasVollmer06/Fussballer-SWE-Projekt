@@ -16,14 +16,14 @@ USERNAME_UPDATE: Final = "username_put"
 @mark.put_request
 def test_put() -> None:
     # arrange
-    fussballer_id: Final = 1
+    fussballer_id: Final = 40
     if_match: Final = '"0"'
     geaenderter_fussballer: Final = {
         "nachname": "Mockput",
         "nationalitaet": "DE",
         "position": "MITTELFELDSPIELER",
         "username": USERNAME_UPDATE,
-        "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},
+        "adresse": {"plz": "99999", "ort": "Testort", "bundesland": "Testland"},
         "auszeichnungen": []
     }
     token: Final = login()
@@ -50,13 +50,13 @@ def test_put() -> None:
 @mark.put_request
 def test_put_invalid() -> None:
     # arrange
-    fussballer_id: Final = 1
+    fussballer_id: Final = 40
     geaenderter_fussballer_invalid: Final = {
         "nachname": "falscher_nachname_123",
         "nationalitaet": "Deutschland",
         "position": "FALSCHE_POSITION",
         "username": "testrestinvalid",
-        "adresse": {"plz": "12", "ort": "Restort", "bundesland": "Restland"},
+        "adresse": {"plz": "12", "ort": "Testort", "bundesland": "Testland"},
         "auszeichnungen": []
     }
     token: Final = login()
@@ -118,9 +118,9 @@ def test_put_nicht_vorhanden() -> None:
 @mark.put_request
 def test_put_username_exists() -> None:
     # arrange
-    fussballer_id: Final = 1
+    fussballer_id: Final = 40
     if_match: Final = '"0"'
-    username_exists: Final = "admin_user"
+    username_exists: Final = "jonas"
     geaenderter_fussbller: Final = {
         "nachname": "Mockput",
         "nationalitaet": "DE",
