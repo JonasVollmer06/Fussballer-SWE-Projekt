@@ -19,7 +19,7 @@ def liveness() -> dict[str, Any]:
     return {"status": "up"}
 
 
-@router.get("readisness")
+@router.get("readiness")
 def readiness() -> dict[str, Any]:
     """Methode zum liefern einer Statusmeldung über Readiness-Status."""
     with engine.connect() as connection:
