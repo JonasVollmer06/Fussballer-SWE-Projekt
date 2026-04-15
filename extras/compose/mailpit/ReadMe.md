@@ -66,7 +66,7 @@ In einer 3. PowerShell oder Bash wird mittels `telnet` eine Test-Mail abgeschick
     echo "My message body"
     echo "."
     echo "QUIT"
-    } | telnet mailpit 1025
+    } | telnet mail 1025
 ```
 
 ## Web-Oberfläche von Mailpit

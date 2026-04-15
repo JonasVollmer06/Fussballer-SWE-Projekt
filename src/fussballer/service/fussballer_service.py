@@ -3,6 +3,8 @@
 from collections.abc import Mapping, Sequence
 from typing import Final
 
+from loguru import logger
+
 from fussballer.repository import (
     FussballerRepository,
     Pageable,
@@ -32,6 +34,8 @@ class FussballerService:
 
         :return: Gefundenes FussballerDTO Objekt zu passender ID.
         """
+        logger.debug("fussballer_id={}, user={}", fussballer_id, user)
+
         with Session() as session:
             user_is_admin: Final = Role.ADMIN in user.roles
 
@@ -59,6 +63,8 @@ class FussballerService:
 
         :return: Fussballer-Objekte Liste zu den Query-Parametern.
         """
+        logger.debug("suchparameter={}", suchparameter)
+
         with Session() as session:
             fussballer_slice: Final = self.repo.find(suchparameter, pageable, session)
             if len(fussballer_slice.content) == 0:
@@ -68,7 +74,7 @@ class FussballerService:
                 FussballerDTO(fussballer) for fussballer in fussballer_slice.content
             )
             session.commit()
-
+        logger.debug("fussballer_slice={}", fussballer_slice)
         return Slice(content=fussballers_dto,
             total_elements=fussballer_slice.total_elements)
 
@@ -79,6 +85,7 @@ class FussballerService:
         als eine Liste ist und man sich somit nicht unnötiger weiße konkret auf eine
         Liste.
         """
+        logger.debug("teil={}", teil)
         with Session() as session:
             nachnamen: Final = self.repo.find_nachnamen(teil, session)
             session.commit()
@@ -86,4 +93,5 @@ class FussballerService:
             if len(nachnamen) == 0:
                 raise FileNotFoundError
 
+            logger.debug("nachnamen={}", nachnamen)
             return nachnamen
