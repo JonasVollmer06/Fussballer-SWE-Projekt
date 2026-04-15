@@ -28,7 +28,7 @@ def test_post() -> None:
             },
         "auszeichnungen": []
     }
-    headers = {"Content_Type": "application/json"}
+    headers = {"Content-Type": "application/json"}
 
     # act
     response: Final = post(
@@ -80,7 +80,7 @@ def test_post_invalid() -> None:
 @mark.post_request
 def test_post_username_exists() -> None:
     # arrange
-    username_exists: Final = "admin_user"
+    username_exists: Final = "jonas"
     neuer_fussballer: Final = {
         "nachname": "NachnameExists",
         "nationalitaet": "DE",
