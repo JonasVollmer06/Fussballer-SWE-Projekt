@@ -6,6 +6,7 @@ from datetime import date
 import strawberry
 
 from fussballer.entity import Fussballer, Position
+from fussballer.service.adresse_dto import AdresseDTO
 
 __all__: list[str] = ["FussballerDTO"]
 
@@ -22,6 +23,7 @@ class FussballerDTO:
     geburtsdatum: date
     nationalitaet: str
     username: str | None
+    adresse: AdresseDTO | None
 
     def __init__(self, fussballer: Fussballer):
         """Initialisierung von FussballerDTO durch ein Entity-Objekt von Fussballer.
@@ -37,4 +39,9 @@ class FussballerDTO:
         self.nationalitaet: str = fussballer.nationalitaet
         self.username = (fussballer.username
         if fussballer.username is not None else "N/A"
+        )
+        self.adresse = (
+            AdresseDTO(fussballer.adresse)
+            if fussballer.adresse is not None
+            else None
         )

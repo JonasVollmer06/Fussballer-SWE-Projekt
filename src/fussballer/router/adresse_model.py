@@ -37,7 +37,7 @@ class AdresseModel(BaseModel):
         """
         adresse_dict = self.model_dump()
         adresse_dict["id"] = None
-        adresse_dict["patient_id"] = None
-        adresse_dict["patient"] = None
+        adresse_dict["fussballer_id"] = None
+        adresse_dict["fussballer"] = None
 
         return Adresse(**adresse_dict)

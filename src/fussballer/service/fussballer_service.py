@@ -42,10 +42,7 @@ class FussballerService:
             ) is None:
                 raise NotFoundError(fussballer_id=fussballer_id)
                 """Es konnte kein Fussballer-Objekt zur gegeben ID gefunden werden."""
-            if user_is_admin:
-                raise ForbiddenError
-
-            if fussballer.username != user.username and not user_is_admin:
+            if not user_is_admin and fussballer.username != user.username:
                 raise ForbiddenError
 
             fussballer_dto: Final = FussballerDTO(fussballer)
@@ -72,10 +69,13 @@ class FussballerService:
             fussballers_dto: Final = tuple(
                 FussballerDTO(fussballer) for fussballer in fussballer_slice.content
             )
+            fussballer_dto_slice: Final = Slice(
+                content=fussballers_dto,
+                total_elements=fussballer_slice.total_elements,
+            )
             session.commit()
-        logger.debug("fussballer_slice={}", fussballer_slice)
-        return Slice(content=fussballers_dto,
-            total_elements=fussballer_slice.total_elements)
+        logger.debug("fussballer_slice={}", fussballer_dto_slice)
+        return fussballer_dto_slice
 
     def find_nachnamen(self, teil: str) -> Sequence[str]:
         """Suche einen passenden Fussballer Nachname zu einem gegebenen Teilstring.
@@ -90,7 +90,7 @@ class FussballerService:
             session.commit()
 
             if len(nachnamen) == 0:
-                raise FileNotFoundError
+                raise NotFoundError(suchparameter={"teil": teil})
 
             logger.debug("nachnamen={}", nachnamen)
             return nachnamen

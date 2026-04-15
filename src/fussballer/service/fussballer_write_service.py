@@ -96,6 +96,15 @@ class FussballerWriteService:
                 )
             ) is None:
                 raise NotFoundError(fussballer_id=fussballer_id)
+
+            username = fussballer.username
+            if (
+                username is not None
+                and username != fussballer_db.username
+                and self.user_service.username_exists(username)
+            ):
+                raise UsernameExistsError(username)
+
             if fussballer_db.version > version:
                 raise VersionOutdatedError(version)
 

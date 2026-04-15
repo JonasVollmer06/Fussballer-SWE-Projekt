@@ -7,8 +7,14 @@ from strawberry.fastapi import GraphQLRouter
 from strawberry.types import Info
 
 from fussballer.config.graphql import graphql_ide
-from fussballer.graphql_api.graphql_types import CreatePayload, FussballerInput
+from fussballer.graphql_api.graphql_types import (
+    CreatePayload,
+    FussballerInput,
+    LoginPayload,
+    SuchparameterInput,
+)
 from fussballer.repository import FussballerRepository
+from fussballer.repository.pageable import Pageable
 from fussballer.router.fussballer_model import FussballerModel
 from fussballer.security import UserService
 from fussballer.security.dependencies import _token_service
@@ -56,10 +62,36 @@ class Query:
 
         return fussballer_dto
 
+    @strawberry.field
+    def fussballer_liste(
+        self, suchparameter: SuchparameterInput
+    ) -> list[FussballerDTO]:
+        """Methode zum Lesen mehrerer Fussballer anhand von Suchparametern."""
+        suchparameter_dict = {
+            key: value
+            for key, value in suchparameter.__dict__.items()
+            if value is not None
+        }
+        try:
+            fussballer_slice: Final = _fussballer_service.find(
+                suchparameter=suchparameter_dict,
+                pageable=Pageable.create(),
+            )
+        except NotFoundError:
+            return []
+
+        return list(fussballer_slice.content)
+
 
 @strawberry.type
 class Mutation:
     """Mutations-Klasse zum manipulieren der Daten(schreiben)."""
+
+    @strawberry.mutation
+    def login(self, username: str, password: str) -> LoginPayload:
+        """GraphQL-Methode zum Erstellen eines Tokens."""
+        token = _token_service.token(username=username, password=password)
+        return LoginPayload(token=token["access_token"])
 
     @strawberry.mutation
     def create(self, fussballer_input: FussballerInput) -> CreatePayload:

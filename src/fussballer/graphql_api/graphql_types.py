@@ -10,6 +10,8 @@ __all__ = [
     "AdresseInput",
     "AuszeichnungInput",
     "CreatePayload",
+    "LoginPayload",
+    "SuchparameterInput",
     "FussballerInput"
 ]
 
@@ -53,8 +55,22 @@ class FussballerInput:
     auszeichnungen: list[AuszeichnungInput]
 
 
+@strawberry.input
+class SuchparameterInput:
+    """Input-Klasse für GraphQL-Suchparameter."""
+
+    nachname: str | None = None
+
+
 @strawberry.type
 class CreatePayload:
     """RückgabeTyp für die ID, welche beim anlegen zurückgeschickt wird."""
 
     id: int
+
+
+@strawberry.type
+class LoginPayload:
+    """RückgabeTyp für den GraphQL-Login."""
+
+    token: str

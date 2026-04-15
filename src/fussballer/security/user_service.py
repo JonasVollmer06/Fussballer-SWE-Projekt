@@ -29,10 +29,13 @@ class UserService:
             )
             roles = self.keycloak_admin.get_client_roles(client_id=self.client_uuid)
             roles_fussballer = [role for role in roles if role["name"] == "fussballer"]
+            roles_admin = [role for role in roles if role["name"] == "admin"]
             self.rolle_fussballer = roles_fussballer[0]
+            self.rolle_admin = roles_admin[0] if roles_admin else None
         except KeycloakConnectionError:
             self.client_uuid = "N/A"
             self.rolle_fussballer = None
+            self.rolle_admin = None
 
     def username_exists(self, username: str) -> bool:
         """Methode zum überprüfen ob ein Benutzername existiert.
@@ -69,9 +72,18 @@ class UserService:
             },
             exist_ok=False,
         )
-        self.keycloak_admin.assign_client_role(
-            user_id=user_id, client_id=self.client_uuid, roles=[self.rolle_fussballer]
-        )
+        client_roles = []
+        if Role.ADMIN in user.roles and self.rolle_admin is not None:
+            client_roles.append(self.rolle_admin)
+        if Role.FUSSBALLER in user.roles and self.rolle_fussballer is not None:
+            client_roles.append(self.rolle_fussballer)
+
+        if client_roles:
+            self.keycloak_admin.assign_client_role(
+                user_id=user_id,
+                client_id=self.client_uuid,
+                roles=client_roles,
+            )
         return user_id
 
     def remove_all_users(self) -> None:

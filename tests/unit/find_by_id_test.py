@@ -107,6 +107,7 @@ def test_find_by_id_success(fussballer_service: FussballerService, session_mock)
         nachname="Mocktest",
         nationalitaet="DE",
         position=Position.STUERMER,
+        geburtsdatum=date(2025, 1, 31),
         username=username,
         adresse=adresse_mock,
         auszeichnungen=[]
@@ -153,7 +154,7 @@ def test_find_by_id_not_found(fussballer_service: FussballerService, session_moc
 @mark.unit_find_by_id
 def test_find_by_id_forbidden(
     fussballer_service: FussballerService, session_mock
-    ) -> None:
+) -> None:
     # Arrange
     fussballer_id = 999
     user_mock = User(
@@ -164,7 +165,26 @@ def test_find_by_id_forbidden(
         roles=[],
         password="p"
     )
-    session_mock.scalar.return_value = None
+    adresse_mock = Adresse(
+        id=11,
+        plz="12345",
+        ort="Mockort",
+        bundesland="Mockland",
+        fussballer_id=fussballer_id,
+        fussballer=None,
+    )
+    fussballer_mock = Fussballer(
+        id=fussballer_id,
+        nachname="Anders",
+        nationalitaet="DE",
+        position=Position.STUERMER,
+        geburtsdatum=date(2025, 1, 31),
+        username="anderer_user",
+        adresse=adresse_mock,
+        auszeichnungen=[],
+    )
+    adresse_mock.fussballer = fussballer_mock
+    session_mock.scalar.return_value = fussballer_mock
 
     # Act
     with raises(ForbiddenError) as err:
