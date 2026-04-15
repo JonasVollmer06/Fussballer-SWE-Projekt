@@ -1,6 +1,5 @@
 # ruff: noqa: S101, D103
 """Test für POST."""
-from sqlalchemy.util import NONE_SET
 
 from http import HTTPStatus
 from re import search
@@ -18,24 +17,24 @@ token: str | None
 def test_post() -> None:
     # arrange
     neuer_fussballer: Final = {
-        "nachname": "NeuerRest",
+        "nachname": "TestFussballer",
         "nationalitaet": "DE",
         "position": "STUERMER",
+        "geburtsdatum": "2022-02-01",
         "username": "neu_rest",
         "adresse": {
             "plz": "99999",
-            "ort": "Restort",
-            "bundesland": "Restland"
+            "ort": "Testort",
+            "bundesland": "Testland"
             },
         "auszeichnungen": []
     }
-    headers = {"Content_Type": "application/json"}
+    headers = {"Content-Type": "application/json"}
 
     # act
     response: Final = post(
         rest_url,
         json=neuer_fussballer,
-
         headers=headers,
         verify=ctx,
     )
@@ -57,6 +56,7 @@ def test_post_invalid() -> None:
         "nachname": "falscher_nachname_123",
         "nationalitaet": "DE",
         "position": "FALSCHE_POSITION",
+        "geburtsdatum": "2022-02-01",
         "username": "testrestinvalid",
         "adresse": {"plz": "1234", "ort": "Restort", "bundesland": "Restland"},
         "auszeichnungen": []
@@ -82,11 +82,12 @@ def test_post_invalid() -> None:
 @mark.post_request
 def test_post_username_exists() -> None:
     # arrange
-    username_exists: Final = "admin_user"
+    username_exists: Final = "jonas"
     neuer_fussballer: Final = {
         "nachname": "NachnameExists",
         "nationalitaet": "DE",
         "position": "TORWART",
+        "geburtsdatum": "2022-02-01",
         "username": username_exists,
         "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},
         "auszeichnungen": []
