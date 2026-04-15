@@ -1,0 +1,33 @@
+meta {
+  name: Token als admin anfordern
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{tokenUrl}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "admin",
+    "password": "p"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.token: matches .\..+\..+
+  res.body.expires_in: eq 1800
+  res.body.rollen: isArray
+  res.body.rollen: length 1
+  res.body.rollen[0]: eq ADMIN
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
