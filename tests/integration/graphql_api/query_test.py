@@ -21,7 +21,7 @@ def test_query_id() -> None:
     query: Final = {
         "query": """
             {
-                fussballer(fussballerId: "1") {
+                fussballer(fussballerId: "40") {
                     version
                     nachname
                     nationalitaet
@@ -92,7 +92,7 @@ def test_query_nachname() -> None:
     query: Final = {
         "query": """
             {
-                fussballerListe(suchparameter: {nachname: "Messi"}) {
+                fussballerListe(suchparameter: {nachname: "Vollmer"}) {
                     id
                     version
                     nachname

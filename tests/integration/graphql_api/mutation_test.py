@@ -17,11 +17,11 @@ def test_create() -> None:
         "query": """
             mutation {
                 create(
-                    patientInput: {
+                    fussballerInput: {
                         nachname: "Nachnamegraphql"
                         position: STUERMER
                         geburtsdatum: "2004-08-16"
-                        nationalitaet: "Deutsch"
+                        nationalitaet: "Deutschland"
                         adresse: {
                             plz: "99999"
                             ort: "Mutationort"
@@ -53,15 +53,16 @@ def test_create() -> None:
     assert isinstance(response_body["data"]["create"]["id"], int)
     assert response_body.get("errors") is None
 
-    @mark.graphql
-    @mark.mutation
-    def test_create_invalid() -> None:
-        # arrange
-        query: Final = {
+
+@mark.graphql
+@mark.mutation
+def test_create_invalid() -> None:
+    # arrange
+    query: Final = {
         "query": """
             mutation {
                 create(
-                    patientInput: {
+                    fussballerInput: {
                         nachname: "falscher-name"
                         position: STUERMER
                         geburtsdatum: "2004-08-16"
