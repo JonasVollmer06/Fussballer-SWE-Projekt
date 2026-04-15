@@ -21,7 +21,7 @@ def test_query_id() -> None:
     query: Final = {
         "query": """
             {
-                fussballer(fussballerId: "1") {
+                fussballer(fussballerId: "40") {
                     version
                     nachname
                     nationalitaet
@@ -92,7 +92,7 @@ def test_query_nachname() -> None:
     query: Final = {
         "query": """
             {
-                fussballerListe(suchparameter: {nachname: "Messi"}) {
+                fussballerListe(suchparameter: {nachname: "Vollmer"}) {
                     id
                     version
                     nachname
@@ -112,7 +112,7 @@ def test_query_nachname() -> None:
     # act
     response: Final = post(graphql_url, json=query, headers=headers, verify=ctx)
 
-    #assert
+    # assert
     assert response.status_code == HTTPStatus.OK
     response_body: Final = response.json()
     assert isinstance(response_body, dict)

@@ -21,7 +21,7 @@ def test_login_admin() -> None:
     # act
     token: Final = login()
 
-    # then
+    # assert
     assert isinstance(token, str)
     assert token
 
@@ -39,7 +39,7 @@ def test_login_falsches_passwort() -> None:
         timeout=timeout,
     )
 
-    # then
+    # assert
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
@@ -56,7 +56,7 @@ def test_login_ohne_daten() -> None:
         timeout=timeout,
     )
 
-    # then
+    # assert
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
@@ -73,5 +73,5 @@ def test_login_unbekannter_user() -> None:
         timeout=timeout,
     )
 
-    # then
+    # assert
     assert response.status_code == HTTPStatus.UNAUTHORIZED
