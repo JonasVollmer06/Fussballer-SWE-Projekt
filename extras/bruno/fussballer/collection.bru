@@ -1,0 +1,11 @@
+vars:pre-request {
+  baseUrl: https://127.0.0.1:8000
+  keycloakUrl: https://localhost:8843
+  realm: python
+  realmUrl: {{keycloakUrl}}/realms/{{realm}}
+  oidcUrl: {{realmUrl}}/protocol/openid-connect
+  oidcAuthUrl: {{oidcUrl}}/auth
+  oidcTokenUrl: {{oidcUrl}}/token
+  authUrl: {{baseUrl}}/auth
+  tokenUrl: {{authUrl}}/token
+}

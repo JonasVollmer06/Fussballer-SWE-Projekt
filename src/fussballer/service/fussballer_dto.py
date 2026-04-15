@@ -6,6 +6,7 @@ from datetime import date
 import strawberry
 
 from fussballer.entity import Fussballer, Position
+from fussballer.service.adresse_dto import AdresseDTO
 
 __all__: list[str] = ["FussballerDTO"]
 
@@ -21,6 +22,7 @@ class FussballerDTO:
     position: Position | None
     geburtsdatum: date
     nationalitaet: str
+    adresse: AdresseDTO
     username: str | None
 
     def __init__(self, fussballer: Fussballer):
@@ -35,6 +37,7 @@ class FussballerDTO:
         self.position: Position | None = fussballer.position
         self.geburtsdatum: date = fussballer.geburtsdatum
         self.nationalitaet: str = fussballer.nationalitaet
+        self.adresse: AdresseDTO = AdresseDTO(fussballer.adresse)
         self.username = (fussballer.username
         if fussballer.username is not None else "N/A"
         )

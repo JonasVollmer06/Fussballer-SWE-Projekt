@@ -12,7 +12,7 @@ post {
 
 body:graphql {
   query ($fussballerId: ID! = "40") {
-    fussballer(fussballerId: $patientId) {
+    fussballer(fussballerId: $fussballerId) {
       id
       version
       nachname
@@ -48,7 +48,7 @@ assert {
   res.body.data.fussballer.position: isString
   res.body.data.fussballer.nationalitaet: isString
   res.body.data.fussballer.nationalitaet: isNotEmpty
-  res.body.data.geburtsdatum.geburtsdatum: isString
+  res.body.data.fussballer.geburtsdatum: isString
 }
 
 settings {
