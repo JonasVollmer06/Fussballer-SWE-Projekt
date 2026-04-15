@@ -11,7 +11,7 @@ from pytest import mark
 
 @mark.rest
 @mark.get_request
-@mark.parametrize("teil", ["Mock", "test"])
+@mark.parametrize("teil", ["Voll", "Eifl"])
 def test_get_by_nachname(teil: str) -> None:
     # arrange
     params = {"nachname": teil}
@@ -54,7 +54,7 @@ def test_get_by_nachname_not_found(nachname: str) -> None:
 
 @mark.rest
 @mark.get_request
-@mark.parametrize("teil", ["a", "n"])
+@mark.parametrize("teil", ["e", "l"])
 def test_get_nachnamen(teil: str) -> None:
     # arrange
     token: Final = login()
