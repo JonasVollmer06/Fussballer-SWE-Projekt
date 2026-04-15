@@ -86,6 +86,9 @@ def get(
     suchparameter = dict(query_parameter)
     suchparameter.pop(PAGE, None)
     suchparameter.pop(SIZE, None)
+    # Bruno collection uses the pluralized query key.
+    if "nachnamen" in suchparameter and "nachname" not in suchparameter:
+        suchparameter["nachname"] = suchparameter.pop("nachnamen")
 
     fussballer_slice: Final = service.find(suchparameter, pageable)
 

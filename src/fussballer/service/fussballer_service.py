@@ -73,10 +73,13 @@ class FussballerService:
             fussballers_dto: Final = tuple(
                 FussballerDTO(fussballer) for fussballer in fussballer_slice.content
             )
+            result: Final = Slice(
+                content=fussballers_dto,
+                total_elements=fussballer_slice.total_elements,
+            )
             session.commit()
-        logger.debug("fussballer_slice={}", fussballer_slice)
-        return Slice(content=fussballers_dto,
-            total_elements=fussballer_slice.total_elements)
+        logger.debug("fussballer_slice={}", result)
+        return result
 
     def find_nachnamen(self, teil: str) -> Sequence[str]:
         """Suche einen passenden Fussballer Nachname zu einem gegebenen Teilstring.
