@@ -1,15 +1,40 @@
 """MainApp."""
 
+from collections.abc import AsyncGenerator, Awaitable, Callable
 from contextlib import asynccontextmanager
-from typing import TYPE_CHECKING, Final
+from time import time
+from typing import Any, Final
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Response, status
+from fastapi.middleware.gzip import GZipMiddleware
 from loguru import logger
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from fussballer.banner import banner
-
-if TYPE_CHECKING:
-    from collections.abc import AsyncGenerator
+from fussballer.config import dev_db_populate, dev_keycloak_populate
+from fussballer.config.dev.db_populate import db_populate
+from fussballer.config.dev.db_populate_router import router as db_populate_router
+from fussballer.config.dev.keycloak_populate import keycloak_populate
+from fussballer.config.dev.keycloak_populate_router import (
+    router as keycloak_populate_router,
+)
+from fussballer.graphql_api import graphql_router
+from fussballer.problem_details import create_problem_details
+from fussballer.repository.session_factory import engine
+from fussballer.router import (
+    fussballer_router,
+    fussballer_write_router,
+    health_router,
+    shutdown_router,
+)
+from fussballer.security import AuthorizationError, LoginError, set_response_headers
+from fussballer.security import router as auth_router
+from fussballer.service import (
+    ForbiddenError,
+    NotFoundError,
+    UsernameExistsError,
+    VersionOutdatedError,
+)
 
 __all__ = [
     "authorization_error_handler",
@@ -72,8 +97,8 @@ async def log_response_time(
 # --------------------------------------------------------------------------------------
 # R E S T
 # --------------------------------------------------------------------------------------
-app.include_router(patient_router, prefix="/rest")
-app.include_router(patient_write_router, prefix="/rest")
+app.include_router(fussballer_router, prefix="/rest")
+app.include_router(fussballer_write_router, prefix="/rest")
 app.include_router(auth_router, prefix="/auth")
 app.include_router(health_router, prefix="/health")
 app.include_router(shutdown_router, prefix="/admin")
@@ -162,21 +187,6 @@ def login_error_handler(_request: Request, err: LoginError) -> Response:
     """
     return create_problem_details(
         status_code=status.HTTP_401_UNAUTHORIZED, detail=str(err)
-    )
-
-
-@app.exception_handler(EmailExistsError)
-def email_exists_error_handler(_request: Request, err: EmailExistsError) -> Response:
-    """Exception-Handling für EmailExistsError.
-
-    :param err: Exception, falls die Emailadresse des neuen oder zu ändernden Patienten
-        bereits existiert
-    :return: Response mit Statuscode 422
-    :rtype: Response
-    """
-    return create_problem_details(
-        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-        detail=str(err),
     )
 
 
