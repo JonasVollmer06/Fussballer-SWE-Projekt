@@ -1,0 +1,27 @@
+meta {
+  name: Suche nachname, nationalitaet, usw von Fussballer anhand ID
+  type: graphql
+  seq: 1
+}
+
+post {
+  url: {{graphqlUrl}}
+  body: graphql
+  auth: inherit
+}
+
+body:graphql {
+  query ($fussballerId: ID! = "40") {
+    fussballer(fussballerId: $patientId) {
+      id
+      version
+      nachname
+      nationalitaet
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
