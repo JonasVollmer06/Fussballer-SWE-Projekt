@@ -1,0 +1,48 @@
+meta {
+  name: Neuer Fussballer anlegen
+  type: graphql
+  seq: 1
+}
+
+post {
+  url: {{graphqlUrl}}
+  body: graphql
+  auth: inherit
+}
+
+body:graphql {
+  mutation {
+    create(
+      fussballerInput: {
+        nachname: "Magin"
+        position: STUERMER
+        geburtsdatum: "2026-04-14"
+        nationalitaet: "Deutschland"
+        adresse: {
+          plz: "76831"
+          ort: "Ingenheim"
+          bundesland: "RP"
+        }
+        auszeichnungen: [{
+          bezeichnung: "Ballon d'Or"
+          saison: "2023/24"
+        }]
+        username: "testgraphql"
+      }
+    ) {
+      id
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.data: isJson
+  res.body.data.create.id: gte 0
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

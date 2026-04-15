@@ -25,9 +25,11 @@ class FussballerService:
         """Konstruktor mit Repository für Fussballer-Objekte."""
         self.repo: FussballerRepository = repo
 
-    def find_by_id(self,
-    fussballer_id: int,
-    user: User) -> FussballerDTO:
+    def find_by_id(
+        self,
+        fussballer_id: int,
+        user: User,
+    ) -> FussballerDTO:
         """Suche von Fussballern anhand übergebener ID.
 
         :return: Gefundenes FussballerDTO Objekt zu passender ID.
@@ -40,9 +42,8 @@ class FussballerService:
             if (
                 fussballer := self.repo.find_by_id(fussballer_id, session)
             ) is None:
-                raise NotFoundError(fussballer_id=fussballer_id)
-                """Es konnte kein Fussballer-Objekt zur gegeben ID gefunden werden."""
-            if user_is_admin:
+                if user_is_admin:
+                    raise NotFoundError(fussballer_id=fussballer_id)
                 raise ForbiddenError
 
             if fussballer.username != user.username and not user_is_admin:
@@ -50,7 +51,7 @@ class FussballerService:
 
             fussballer_dto: Final = FussballerDTO(fussballer)
             session.commit()
-        logger.debug("{}", fussballer_dto)
+
         return fussballer_dto
 
     def find(

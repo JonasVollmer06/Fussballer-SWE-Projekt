@@ -1,0 +1,31 @@
+meta {
+  name: Suche mit vorhandenem Nachnamen
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{restUrl}}?nachname=Eifler
+  body: none
+  auth: inherit
+}
+
+params:query {
+  nachname: Eifler
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.content: isArray
+  res.body.content: isNotEmpty
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

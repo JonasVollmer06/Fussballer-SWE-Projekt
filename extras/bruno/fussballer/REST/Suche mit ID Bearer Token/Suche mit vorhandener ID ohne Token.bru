@@ -1,0 +1,28 @@
+meta {
+  name: Suche mit vorhandener ID ohne Token
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{restUrl}}/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: 3
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 401
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

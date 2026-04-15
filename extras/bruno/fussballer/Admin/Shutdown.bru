@@ -1,0 +1,46 @@
+meta {
+  name: Shutdown
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/admin/shutdown
+  body: none
+  auth: oauth2
+}
+
+auth:oauth2 {
+  grant_type: password
+  access_token_url: {{oidcTokenUrl}}
+  refresh_token_url: 
+  username: {{username}}
+  password: {{password}}
+  client_id: {{clientId}}
+  client_secret: {{clientSecret}}
+  scope: 
+  credentials_placement: body
+  credentials_id: credentials
+  token_placement: header
+  token_header_prefix: Bearer
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+vars:pre-request {
+  username: admin
+  password: p
+  clientId: python-client
+  clientSecret: kGXH5uWL4yOyIpGxkOa4marnjMhDwjem
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.message: matches ^Server is shutting down
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,40 @@
+meta {
+  name: Vorhandener Fussballer ändern (ungültige Daten)
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{restUrl}}/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 7
+}
+
+headers {
+  If-Match: "0"
+}
+
+body:json {
+  {
+    "nachname": "Müller",
+    "position": "Y",
+    "geburtsdatum": "2027-04-14",
+    "nationalitaet": "Finnland"
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.headers['content-type']: eq application/json
+  res.body.detail: isArray
+  res.body.detail: isNotEmpty
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

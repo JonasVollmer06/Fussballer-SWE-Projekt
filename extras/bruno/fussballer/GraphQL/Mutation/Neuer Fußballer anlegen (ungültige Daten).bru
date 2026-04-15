@@ -1,0 +1,53 @@
+meta {
+  name: Neuer Fußballer anlegen (ungültige Daten)
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: {{graphqlUrl}}
+  body: graphql
+  auth: inherit
+}
+
+body:graphql {
+  mutation {
+    create(
+      fussballerInput: {
+        nachname: "Magin"
+        position: STUERMER
+        geburtsdatum: "2027-04-14"
+        nationalitaet: "Deutschland"
+        adresse: {
+          plz: "76831"
+          ort: "Ingenheim"
+          bundesland: "RP"
+        }
+        auszeichnungen: [{
+          bezeichnung: "Ballon d'Or"
+          saison: "2023/24"
+        }]
+        username: "testgraphqltest"
+      }
+    ) {
+      id
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.errors: isArray
+  res.body.errors: length 1
+  res.body.errors[0].message: contains position
+  res.body.errors[0].message: contains geburtsdatum
+  res.body.errors[0].path: isArray
+  res.body.errors[0].path: length 1
+  res.body.errors[0].path[0]: eq create
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,30 @@
+meta {
+  name: Suche mit vorhandener ID
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{restUrl}}/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 3
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.id: eq 3
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

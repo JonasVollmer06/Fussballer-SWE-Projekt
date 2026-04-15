@@ -1,0 +1,33 @@
+meta {
+  name: Vorhandener Fussballer ändern (ohne Versionsnummer)
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{restUrl}}/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 7
+}
+
+body:json {
+  {
+    "nachname": "Müller",
+    "position": "T",
+    "geburtsdatum": "2026-04-14",
+    "nationalitaet": "Finnland"
+  }
+}
+
+assert {
+  res.status: eq 428
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
