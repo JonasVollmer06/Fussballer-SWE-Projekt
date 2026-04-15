@@ -1,0 +1,44 @@
+meta {
+  name: Neuer Fussballer anlegen
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{restUrl}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nachname": "Olise",
+    "position": "V",
+    "geburtsdatum": "2026-04-14",
+    "nationalitaet": "Deutschland",
+    "adresse": {
+      "plz": "76831",
+      "ort": "Ingenheim",
+      "bundesland": "RP"
+    },
+    "auszeichnung": [
+    {
+      "bezeichnung": "Ballon d'Or",
+      "saison": "2023/24"
+    }
+  ],
+    "username": "testgraphql"
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.headers.location: matches \/rest\/[1-9]\d*$
+  res.body: isString
+  res.body: isEmpty
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

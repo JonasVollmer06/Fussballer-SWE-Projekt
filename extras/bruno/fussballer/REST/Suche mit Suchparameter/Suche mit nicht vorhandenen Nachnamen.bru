@@ -1,0 +1,28 @@
+meta {
+  name: Suche mit nicht vorhandenen Nachnamen
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{restUrl}}?Nachname=Kolb
+  body: none
+  auth: inherit
+}
+
+params:query {
+  Nachname: Kolb
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 404
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

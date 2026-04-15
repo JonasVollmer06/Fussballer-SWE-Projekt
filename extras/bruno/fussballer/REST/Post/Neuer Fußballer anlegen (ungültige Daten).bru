@@ -1,0 +1,44 @@
+meta {
+  name: Neuer Fußballer anlegen (ungültige Daten)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{restUrl}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nachname": "Olise",
+    "position": "L",
+    "geburtsdatum": "2027-04-14",
+    "nationalitaet": "Deutschland",
+    "adresse": {
+      "plz": "76831",
+      "ort": "Ingenheim",
+      "bundesland": "RP"
+    },
+    "auszeichnung": [
+    {
+      "bezeichnung": "Ballon d'Or",
+      "saison": "2023/24"
+    }
+  ],
+    "username": "testgraphql"
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.headers['content-type']: eq application/json
+  res.body.detail: isArray
+  res.body.detail: isNotEmpty
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

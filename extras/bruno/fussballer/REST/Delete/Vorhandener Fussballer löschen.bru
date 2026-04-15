@@ -1,0 +1,30 @@
+meta {
+  name: Vorhandener Fussballer löschen
+  type: http
+  seq: 1
+}
+
+delete {
+  url: {{restUrl}}/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 60
+}
+
+headers {
+  If-Match: "0"
+}
+
+assert {
+  res.status: eq 204
+  res.body: isString
+  res.body: isEmpty
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
