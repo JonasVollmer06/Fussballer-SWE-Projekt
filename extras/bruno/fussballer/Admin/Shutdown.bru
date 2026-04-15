@@ -1,0 +1,22 @@
+meta {
+  name: Shutdown
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/admin/shutdown
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.message: matches ^Server is shutting down
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

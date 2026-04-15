@@ -1,0 +1,26 @@
+meta {
+  name: Liveness
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{healthUrl}}/liveness
+  body: none
+  auth: inherit
+}
+
+vars:pre-request {
+  healthUrl: 
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.status: eq up
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
