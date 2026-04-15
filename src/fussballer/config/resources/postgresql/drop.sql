@@ -9,4 +9,4 @@ DROP TABLE IF EXISTS
     fussballer;
 
 DROP TYPE IF EXISTS
-    position;
+    position_type;
