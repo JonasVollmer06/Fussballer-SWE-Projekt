@@ -1,7 +1,7 @@
 """Factory-Funktionen für den Zugriff auf Services mittels Dependency Injection."""
 
-from patient.security.token_service import TokenService
-from patient.security.user_service import UserService
+from fussballer.security.token_service import TokenService
+from fussballer.security.user_service import UserService
 
 """Erstellen eines einzigen Objektes TokenService (Singleton)"""
 _token_service = TokenService()

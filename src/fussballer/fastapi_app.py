@@ -38,7 +38,6 @@ from fussballer.service import (
 
 __all__ = [
     "authorization_error_handler",
-    "email_exists_error_handler",
     "login_error_handler",
     "not_found_error_handler",
     "version_outdated_error_handler",
