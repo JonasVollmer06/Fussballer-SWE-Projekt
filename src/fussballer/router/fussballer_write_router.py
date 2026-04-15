@@ -2,6 +2,7 @@
 from typing import Annotated, Final
 
 from fastapi import APIRouter, Depends, Request, Response, status
+from loguru import logger
 
 from fussballer.problem_details import create_problem_details
 from fussballer.router.constants import IF_MATCH, IF_MATCH_MIN_LEN
@@ -32,8 +33,9 @@ def post(
     :raises ValidationError: Falls es bei Pydantic Validierungsfehler gibt
     :raises UsernameExistsError: Falls der Benutzername bereits existiert
     """
+    logger.debug("fussballer_model={}", fussballer_model)
     fussballer_dto: Final = service.create(fussballer=fussballer_model.to_fussballer())
-
+    logger.debug("fussballer_dto={}", fussballer_dto)
     return Response(
         status_code=status.HTTP_201_CREATED,
         headers={"Location": f"{request.url}/{fussballer_dto.id}"},
@@ -63,6 +65,12 @@ def put(
     :raises VersionOutdatedError: Falls die Versionsnummer nicht aktuell ist
     """
     if_match_value: Final = request.headers.get(IF_MATCH)
+    logger.debug(
+        "fussballer_id={}, if_match={}, fussballer_update_model={}",
+        fussballer_id,
+        if_match_value,
+        fussballer_update_model,
+    )
 
     if if_match_value is None:
         return create_problem_details(
@@ -92,6 +100,7 @@ def put(
         fussballer_id=fussballer_id,
         version=version_int,
     )
+    logger.debug("fussballer_modified={}", fussballer_modified)
 
     return Response(
         status_code=status.HTTP_204_NO_CONTENT,
@@ -114,5 +123,6 @@ def delete_by_id(
     :return: Response mit Statuscode 204
     :rtype: Response
     """
+    logger.debug("fussballer_id={}", fussballer_id)
     service.delete_by_id(fussballer_id=fussballer_id)
     return Response(status_code=status.HTTP_204_NO_CONTENT)

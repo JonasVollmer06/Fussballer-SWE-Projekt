@@ -1,7 +1,9 @@
-"""FußballerGetRouter."""
+"""FussballerGetRouter."""
 
 from dataclasses import asdict
 from typing import Annotated, Any, Final
+
+from loguru import logger
 
 from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import JSONResponse
@@ -34,8 +36,10 @@ def get_by_id(
     :return: Response mit den Daten des gefundenen Objektes
     """
     user: Final[User] = request.state.current_user
+    logger.debug("fussballer_id={}, user={}", fussballer_id, user)
 
     fussballer: Final = service.find_by_id(fussballer_id, user)
+    logger.debug("{}", fussballer)
 
     if_none_match: Final = request.headers.get("if-none-match")
 
@@ -73,6 +77,7 @@ def get(
     gegebenen Query-Parametern
     """
     query_parameter: Final = request.query_params
+    logger.debug("query_parameter={}", query_parameter)
 
     page: Final = query_parameter.get(PAGE)
     size: Final = query_parameter.get(SIZE)
@@ -85,6 +90,7 @@ def get(
     fussballer_slice: Final = service.find(suchparameter, pageable)
 
     result: Final = _fussballer_slice_to_page(fussballer_slice, pageable)
+    logger.debug("result={}", result)
     return JSONResponse(content=result)
 
 
@@ -101,6 +107,7 @@ def get_nachname(
     :param teil: Übergebener Teilstring, zum Suchen von Fussballer-Nachnamen
     :return: Rückgabe ist der gefundene Nachname passend zum Teilstring
     """
+    logger.debug("teil={}", teil)
     nachnamen: Final = service.find_nachnamen(teil=teil)
     return JSONResponse(content=nachnamen)
 
