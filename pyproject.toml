@@ -172,7 +172,7 @@ dependencies = [
 fussballer = "fussballer:main"
 
 [build-system]
-requires = ["uv_build==0.10.11"]
+requires = ["uv_build==0.11.6"]
 build-backend = "uv_build"
 
 [project.urls]
@@ -258,7 +258,7 @@ include = ["src/fussballer/service/*"]
 [tool.pytest.ini_options]
 minversion = "8.4.1"
 # fuer Unit-Tests
-pythonpath = ["src"]
+pythonpath = ["src", "tests/integration"]
 testpaths = ["tests/integration", "tests/unit"]
 # -m: nur Tests mit dem spezifizierten _Marker_ ausführen
 # -r A: zusaetzliche Zusammenfassung anzeigen (A = All)

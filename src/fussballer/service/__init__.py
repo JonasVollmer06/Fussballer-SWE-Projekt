@@ -2,7 +2,6 @@
 
 from fussballer.service.adresse_dto import AdresseDTO
 from fussballer.service.exceptions import (
-    EmailExistsError,
     ForbiddenError,
     NotFoundError,
     UsernameExistsError,
@@ -16,7 +15,6 @@ from fussballer.service.mailer import send_mail
 # https://docs.python.org/3/tutorial/modules.html#importing-from-a-package
 __all__ = [
     "AdresseDTO",
-    "EmailExistsError",
     "ForbiddenError",
     "FussballerDTO",
     "FussballerService",

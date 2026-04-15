@@ -71,7 +71,6 @@ class FussballerWriteService:
         :rtype: FussballerDTO
         :raises NotFoundError: Fussballer existiert nicht
         :raises VersionOutdatedError: Falls die Versionsnummer nicht aktuell ist
-        :raises EmailExistsError: Falls die Emailadresse bereits existiert
         """
         with Session() as session:
             if (
