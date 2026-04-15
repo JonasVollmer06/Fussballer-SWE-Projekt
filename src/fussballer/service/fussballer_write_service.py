@@ -6,7 +6,6 @@ from fussballer.entity import Fussballer
 from fussballer.repository import FussballerRepository, Session
 from fussballer.security import User, UserService
 from fussballer.service.exceptions import (
-    EmailExistsError,
     NotFoundError,
     UsernameExistsError,
     VersionOutdatedError,

@@ -3,7 +3,6 @@
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, StringConstraints
-from ty_extensions import Unknown
 
 from fussballer.entity import Adresse
 
@@ -36,7 +35,7 @@ class AdresseModel(BaseModel):
         :return: Adresse-Objekt für SQLAlchemy
         :rtype: Adresse
         """
-        adresse_dict: Unknown = self.model_dump()
+        adresse_dict = self.model_dump()
         adresse_dict["id"] = None
         adresse_dict["patient_id"] = None
         adresse_dict["patient"] = None

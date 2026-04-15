@@ -7,8 +7,8 @@ from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import JSONResponse
 
 from fussballer.security.dependencies import get_token_service
-from fussballer.security.token_service import TokenService
 from fussballer.security.login_data import LoginData
+from fussballer.security.token_service import TokenService
 
 __all__ = ["router"]
 
