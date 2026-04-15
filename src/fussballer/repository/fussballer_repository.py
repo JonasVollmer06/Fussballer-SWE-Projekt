@@ -3,6 +3,7 @@
 from collections.abc import Mapping, Sequence
 from typing import Final
 
+from loguru import logger
 from sqlalchemy import func, select
 from sqlalchemy.orm import InstrumentedAttribute, Session, joinedload
 
@@ -18,6 +19,8 @@ class FussballerRepository:
 
     def find_by_id(self, fussballer_id, session) -> Fussballer | None:
         """Datenbankzugriff für das Suchen von Fussballer-Objekt mit einer ID."""
+        logger.debug("fussballer_id: {}", fussballer_id)
+
         if fussballer_id is None:
             return None
 
@@ -27,6 +30,7 @@ class FussballerRepository:
             .where(Fussballer.id == fussballer_id)
         )
         fussballer: Final = session.scalar(statement)
+        logger.debug("Fussballer: {}", fussballer)
 
         return fussballer
 
@@ -36,6 +40,7 @@ class FussballerRepository:
 
         :return: Ausschnitt der gefundenen Fussballer-Objekten.
         """
+        logger.debug("suchparameter: {}", suchparameter)
         if not suchparameter:
             return self._find_all(pageable, session)
         """Rückgabe aller Fussballer-Objekte im Falle einer Leeren Liste, welche
@@ -56,6 +61,7 @@ class FussballerRepository:
             return self._find_by_attribut(attribut,
                     teil=value, pageable=pageable, session=session)
 
+        logger.debug("slice: {}", Slice)
         return Slice(content=(), total_elements=0)
 
     def _find_all(self, pageable: Pageable, session: Session) -> Slice[Fussballer]:
@@ -76,6 +82,7 @@ class FussballerRepository:
             )
 
         fussballers: Final = (session.scalars(statement)).all()
+        logger.debug("Fussballers: {}", fussballers)
         anzahl: Final = self._count_all_rows(session)
         fussballer_slice: Final = Slice(content=tuple(fussballers),
             total_elements=anzahl)

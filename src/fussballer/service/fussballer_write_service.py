@@ -33,6 +33,13 @@ class FussballerWriteService:
         :return: Der neu angelegte Fussballer mit generierter ID
         :rtype: FussballerDTO
         """
+        logger.debug(
+            "fussballer={}, adresse={}, auszeichnungen={}",
+            fussballer,
+            fussballer.adresse,
+            fussballer.auszeichnungen,
+        )
+
         username: Final = fussballer.username
         if username is None:
             raise ValueError("Username darf nicht None sein.")
@@ -75,6 +82,13 @@ class FussballerWriteService:
         :raises NotFoundError: Fussballer existiert nicht
         :raises VersionOutdatedError: Falls die Versionsnummer nicht aktuell ist
         """
+        logger.debug(
+            "fussballer_id={}, version={}, fussballer={}",
+            fussballer_id,
+            version,
+            fussballer,
+        )
+
         with Session() as session:
             if (
                 fussballer_db := self.repo.find_by_id(
@@ -92,8 +106,9 @@ class FussballerWriteService:
             ) is None:
                 raise NotFoundError(fussballer_id=fussballer_id)
             fussballer_dto: Final = FussballerDTO(fussballer_updated)
-
+            logger.debug("fussballer_dto={}", fussballer_dto)
             session.commit()
+
             fussballer_dto.version += 1
             return fussballer_dto
 
@@ -102,6 +117,8 @@ class FussballerWriteService:
 
         :param fussballer_id: ID des zu löschenden Fussballers
         """
+        logger.debug("fussballer_id={}", fussballer_id)
+
         with Session() as session:
             self.repo.delete_by_id(fussballer_id, session=session)
             session.commit()
