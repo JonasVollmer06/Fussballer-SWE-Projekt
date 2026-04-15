@@ -95,7 +95,7 @@ def get(
 
 
 @fussballer_router.get(
-    "/nachname/{teil}",
+    "/nachnamen/{teil}",
     dependencies=[Depends(RolesRequired(Role.ADMIN))],
 )
 def get_nachname(

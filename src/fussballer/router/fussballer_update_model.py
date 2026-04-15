@@ -2,10 +2,11 @@
 from datetime import date
 from typing import Annotated, Any
 
-from pydantic import BaseModel, ConfigDict, StringConstraints
+from pydantic import BaseModel, ConfigDict, StringConstraints, field_validator
 
 from fussballer.entity.fussballer import Fussballer
 from fussballer.entity.position import Position
+from fussballer.router.adresse_model import AdresseModel
 
 __all__: list[str] = ["FussballerUpdateModel"]
 
@@ -16,7 +17,7 @@ class FussballerUpdateModel(BaseModel):
     nachname: Annotated[
         str,
         StringConstraints(
-            pattern="^[A-ZÄÖÜ][a-zäöüß]+(-[A-ZÄÖÜ][a-zäöüß])?$",
+            pattern="^[A-ZÄÖÜ][A-Za-zÄÖÜäöüß-]*$",
             max_length=64,
         ),
     ]
@@ -28,7 +29,7 @@ class FussballerUpdateModel(BaseModel):
     nationalitaet: Annotated[
         str,
         StringConstraints(
-            pattern="^[A-ZÄÖÜ][a-zäöüß]+(-[A-ZÄÖÜ][a-zäöüß])?$",
+            pattern="^[A-ZÄÖÜ][A-Za-zÄÖÜäöüß-]*$",
             max_length=64,
         ),
     ]
