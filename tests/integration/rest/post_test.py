@@ -1,6 +1,5 @@
 # ruff: noqa: S101, D103
 """Test für POST."""
-from sqlalchemy.util import NONE_SET
 
 from http import HTTPStatus
 from re import search
@@ -18,14 +17,14 @@ token: str | None
 def test_post() -> None:
     # arrange
     neuer_fussballer: Final = {
-        "nachname": "NeuerRest",
+        "nachname": "TestFussballer",
         "nationalitaet": "DE",
         "position": "STUERMER",
         "username": "neu_rest",
         "adresse": {
             "plz": "99999",
-            "ort": "Restort",
-            "bundesland": "Restland"
+            "ort": "Testort",
+            "bundesland": "Testland"
             },
         "auszeichnungen": []
     }
@@ -35,7 +34,6 @@ def test_post() -> None:
     response: Final = post(
         rest_url,
         json=neuer_fussballer,
-
         headers=headers,
         verify=ctx,
     )

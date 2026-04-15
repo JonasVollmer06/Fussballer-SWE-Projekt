@@ -112,7 +112,7 @@ def test_query_nachname() -> None:
     # act
     response: Final = post(graphql_url, json=query, headers=headers, verify=ctx)
 
-    #assert
+    # assert
     assert response.status_code == HTTPStatus.OK
     response_body: Final = response.json()
     assert isinstance(response_body, dict)

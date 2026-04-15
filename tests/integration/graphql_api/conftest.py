@@ -5,7 +5,6 @@ from common_test import check_readiness, db_populate, keycloak_populate
 from pytest import fixture
 
 
-
 session_scope = "session"
 
 

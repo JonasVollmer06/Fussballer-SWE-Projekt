@@ -12,7 +12,7 @@ from pytest import mark
 @mark.rest
 @mark.get_request
 @mark.parametrize("teil", ["Mock", "test"])
-def test_get_by_nachname(teil : str) -> None:
+def test_get_by_nachname(teil: str) -> None:
     # arrange
     params = {"nachname": teil}
     token: Final = login()
@@ -35,7 +35,6 @@ def test_get_by_nachname(teil : str) -> None:
         assert f.get("id") is not None
 
 
-
 @mark.rest
 @mark.get_request
 @mark.parametrize("nachname", ["GibtEsNicht", "Foo_bar"])
@@ -49,9 +48,8 @@ def test_get_by_nachname_not_found(nachname: str) -> None:
     # act
     response: Final = get(rest_url, params=params, headers=headers, verify=ctx)
 
-    #assert
+    # assert
     assert response.status_code == HTTPStatus.NOT_FOUND
-
 
 
 @mark.rest
