@@ -2,6 +2,8 @@
 
 from typing import Final
 
+from loguru import logger
+
 from fussballer.entity import Fussballer
 from fussballer.repository import FussballerRepository, Session
 from fussballer.security import User, UserService
@@ -56,6 +58,7 @@ class FussballerWriteService:
             fussballer_dto: Final = FussballerDTO(fussballer_db)
             session.commit()
 
+            logger.debug("fussballer_dto: {}", fussballer_dto)
             send_mail(fussballer_dto=fussballer_dto)
             return fussballer_dto
 
