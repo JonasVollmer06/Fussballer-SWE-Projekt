@@ -14,7 +14,7 @@ class AuszeichnungModel(BaseModel):
     bezeichnung: Annotated[
         str,
         StringConstraints(
-            pattern="^[A-ZÄÖÜ][a-zäöüß]+(-[A-ZÄÖÜ][a-zäöüß])?$",
+            pattern=r"^(?:[A-ZÄÖÜ][a-zäöüß]+|[A-Z]{2,})(?:[ -](?:[A-ZÄÖÜ][a-zäöüß]+|[A-Z]{2,}|d'[A-ZÄÖÜ][a-zäöüß]+|of|the))*$",
             max_length=64,
         ),
     ]

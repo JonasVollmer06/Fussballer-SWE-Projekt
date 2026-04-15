@@ -11,7 +11,7 @@ post {
 }
 
 body:graphql {
-  query ($fussballerId: ID! = "40") {
+  query ($fussballerId: ID! = "1") {
     fussballer(fussballerId: $fussballerId) {
       id
       version
@@ -31,7 +31,7 @@ body:graphql {
 
 body:graphql:vars {
   {
-    "fussballerId": "20"
+    "fussballerId": "1"
   }
 }
 

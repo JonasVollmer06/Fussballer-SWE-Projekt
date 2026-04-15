@@ -53,6 +53,6 @@ def token(
     response_body: Final = {
         "token": access_token,
         "expires_in": token["expires_in"],
-        "roles": roles,
+        "rollen": roles,
     }
     return JSONResponse(content=response_body)
