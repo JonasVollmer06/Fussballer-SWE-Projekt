@@ -1,0 +1,27 @@
+meta {
+  name: Suche Alle
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{restUrl}}
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.content: isArray
+  res.body.content: isNotEmpty
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
