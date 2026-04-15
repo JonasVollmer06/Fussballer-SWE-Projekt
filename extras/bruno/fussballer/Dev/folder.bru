@@ -1,8 +1,11 @@
 meta {
   name: Dev
-  seq: 2
 }
 
 auth {
   mode: inherit
+}
+
+vars:pre-request {
+  devUrl: {{baseUrl}}/dev
 }
