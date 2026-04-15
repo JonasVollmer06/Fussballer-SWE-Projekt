@@ -10,7 +10,7 @@ from fussballer.service import FussballerService, FussballerWriteService
 
 
 @fixture()
-def fussballer_repositories() -> FussballerRepository:
+def fussballer_repository() -> FussballerRepository:
     """Stellt ein isoliertes FussballerRepository für Tests bereit."""
     return FussballerRepository()
 
@@ -24,7 +24,7 @@ def fussballer_service(
 
 
 @fixture
-def keyclok_admin_mock(mocker: MockerFixture) -> KeycloakAdmin:
+def keycloak_admin_mock(mocker: MockerFixture) -> KeycloakAdmin:
     """Mockt die KeycloakAdmin-Klasse, um echte Netzwerkanfragen zu verhindern."""
     keycloak_admin_cls_mock = mocker.patch(
         "fussballer.security.user_service.KeycloakAdmin"

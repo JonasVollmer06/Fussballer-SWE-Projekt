@@ -22,6 +22,7 @@ def test_put() -> None:
         "nachname": "Mockput",
         "nationalitaet": "DE",
         "position": "MITTELFELDSPIELER",
+        "geburtsdatum": "2022-02-01",
         "username": USERNAME_UPDATE,
         "adresse": {"plz": "99999", "ort": "Testort", "bundesland": "Testland"},
         "auszeichnungen": []
@@ -55,6 +56,7 @@ def test_put_invalid() -> None:
         "nachname": "falscher_nachname_123",
         "nationalitaet": "Deutschland",
         "position": "FALSCHE_POSITION",
+        "geburtsdatum": "2022-02-01",
         "username": "testrestinvalid",
         "adresse": {"plz": "12", "ort": "Testort", "bundesland": "Testland"},
         "auszeichnungen": []
@@ -91,6 +93,7 @@ def test_put_nicht_vorhanden() -> None:
         "nachname": "Mockput",
         "nationalitaet": "DE",
         "position": "MITTELFELDSPIELER",
+        "geburtsdatum": "2022-02-01",
         "username": USERNAME_UPDATE,
         "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},
         "auszeichnungen": []
@@ -125,6 +128,7 @@ def test_put_username_exists() -> None:
         "nachname": "Mockput",
         "nationalitaet": "DE",
         "position": "MITTELFELDSPIELER",
+        "geburtsdatum": "2022-02-01",
         "username": username_exists,
         "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},
         "auszeichnungen": []

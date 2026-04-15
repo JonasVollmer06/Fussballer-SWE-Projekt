@@ -2,6 +2,7 @@
 """Unit-Tests für create() von FussballerWriteService."""
 
 from copy import deepcopy
+from datetime import date
 
 from pytest import fixture, mark, raises
 from pytest_mock import MockerFixture
@@ -40,6 +41,7 @@ def test_create(
         nachname="Mocktest",
         nationalitaet="DE",
         position=Position.STUERMER,
+        geburtsdatum=date(2025, 1, 31),
         username="mocktest",
         adresse=adresse,
         auszeichnungen=[],

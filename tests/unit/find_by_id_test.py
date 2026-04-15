@@ -2,6 +2,7 @@
 """Unit-Tests für find_by_id() von FussballerService."""
 
 from dataclasses import asdict
+from datetime import date
 
 from pytest import fixture, mark, raises
 from pytest_mock import MockerFixture
@@ -57,6 +58,7 @@ def test_find_by_id_admin_success(
         nachname="Spieler",
         nationalitaet="DE",
         position=Position.STUERMER,
+        geburtsdatum=date(2025, 1, 31),
         username=username_spieler,
         adresse=adresse_mock,
         auszeichnungen=[]
