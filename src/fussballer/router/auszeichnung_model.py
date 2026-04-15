@@ -2,7 +2,6 @@
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, StringConstraints
-from ty_extensions import Unknown
 
 from fussballer.entity import Auszeichnung
 
@@ -38,7 +37,7 @@ class AuszeichnungModel(BaseModel):
         :return: Auszeichnung-Objekt für SQLAlchemy
         :rtype: Auszeichnung
         """
-        auszeichnung_dict: Unknown = self.model_dump()
+        auszeichnung_dict = self.model_dump()
         auszeichnung_dict["id"] = None
         auszeichnung_dict["fussballer_id"] = None
         auszeichnung_dict["fussballer"] = None
