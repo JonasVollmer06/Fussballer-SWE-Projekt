@@ -1,8 +1,8 @@
 id;plz;ort;bundesland;fussballer_id
-01;12345;Adminhausen;RP;001
-02;76831;München;BY;002
-03;76863;Karlsruhe;BW;003
-04;76761;Ingenheim;RP;004
-05;76837;Herxheim;RP;005
-06;81677;Freiburg;BW;006
-07;06956;Bingen;RP;007
+1;12345;Adminhausen;RP;001
+20;76831;München;BY;002
+30;76863;Karlsruhe;BW;003
+40;76761;Ingenheim;RP;004
+50;76837;Herxheim;RP;005
+60;81677;Freiburg;BW;006
+70;06956;Bingen;RP;007

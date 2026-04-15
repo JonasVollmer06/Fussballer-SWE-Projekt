@@ -1,8 +1,8 @@
 id;bezeichnung;saison;fussballer_id
 1;Ballon d'Or;2023/24;001
-2;Golden Boot;2022/23;002
-3;FIFA Best Player;2022/23;003
-4;UEFA Player of the Year;2020/21;004
-5;Premier League MVP;2021/22;005
-6;World Cup Golden Ball;2021/22;006
-7;Young Player Award;2023/24;007
+20;Golden Boot;2022/23;002
+30;FIFA Best Player;2022/23;003
+40;UEFA Player of the Year;2020/21;004
+50;Premier League MVP;2021/22;005
+60;World Cup Golden Ball;2021/22;006
+70;Young Player Award;2023/24;007
