@@ -1,0 +1,30 @@
+meta {
+  name: Suche nachname eines nicht vorhandenen Fussballers
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: {{graphqlUrl}}
+  body: graphql
+  auth: inherit
+}
+
+body:graphql {
+  {
+    fussballer(fussballerId: "123456789") {
+      nachname
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.data.fussballer: isNull
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

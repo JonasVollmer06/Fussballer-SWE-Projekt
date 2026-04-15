@@ -16,9 +16,39 @@ body:graphql {
       id
       version
       nachname
+      position
       nationalitaet
+      geburtsdatum
+      adresse {
+        plz
+        ort
+        bundesland
+      }
+      username
     }
   }
+}
+
+body:graphql:vars {
+  {
+    "fussballerId": "20"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.headers['content-type']: eq application/json
+  res.body.data.fussballer: isJson
+  res.body.data.fussballer.version: gte 0
+  res.body.data.fussballer.nachname: isString
+  res.body.data.fussballer.nachname: isNotEmpty
+  res.body.data.fussballer.adresse: isJson
+  res.body.data.fussballer.username: isString
+  res.body.data.fussballer.username: isNotEmpty
+  res.body.data.fussballer.position: isString
+  res.body.data.fussballer.nationalitaet: isString
+  res.body.data.fussballer.nationalitaet: isNotEmpty
+  res.body.data.geburtsdatum.geburtsdatum: isString
 }
 
 settings {
