@@ -83,3 +83,132 @@ if dev_db_populate:
 if dev_keycloak_populate:
     app.include_router(keycloak_populate_router, prefix="/dev")
 
+
+# --------------------------------------------------------------------------------------
+# G r a p h Q L
+# --------------------------------------------------------------------------------------
+app.include_router(graphql_router, prefix="/graphql")
+
+
+# --------------------------------------------------------------------------------------
+# S e c u r i t y
+# --------------------------------------------------------------------------------------
+# https://fastapi.tiangolo.com/tutorial/middleware
+@app.middleware("http")
+async def add_security_headers(
+    request: Request,
+    call_next: Callable[[Any], Awaitable[Response]],
+) -> Response:
+    """Header-Daten beim Response für IT-Sicherheit setzen.
+
+    :param request: Injiziertes Request-Objekt, das zunächst fertig verarbeitet wird
+    :param call_next: nächste aufzurufende Middleware
+    :return: Response-Objekt mit zusätzlichen Header-Daten
+    :rtype: Response
+    """
+    response: Final[Response] = await call_next(request)
+    set_response_headers(response)
+    return response
+
+
+# --------------------------------------------------------------------------------------
+# E x c e p t i o n   H a n d l e r
+# --------------------------------------------------------------------------------------
+@app.exception_handler(NotFoundError)
+def not_found_error_handler(_request: Request, _err: NotFoundError) -> Response:
+    """Errorhandler für NotFoundError.
+
+    :param _err: NotFoundError aus der Geschäftslogik
+    :return: Response mit Statuscode 404
+    :rtype: Response
+    """
+    return create_problem_details(status_code=status.HTTP_404_NOT_FOUND)
+
+
+@app.exception_handler(ForbiddenError)
+def forbidden_error_handler(_request: Request, _err: ForbiddenError) -> Response:
+    """Errorhandler für ForbiddenError.
+
+    :param _err: ForbiddenError vom Überprüfen der erforderlichen Rollen
+    :return: Response mit Statuscode 403
+    :rtype: Response
+    """
+    return create_problem_details(status_code=status.HTTP_403_FORBIDDEN)
+
+
+@app.exception_handler(AuthorizationError)
+def authorization_error_handler(
+    _request: Request,
+    _err: AuthorizationError,
+) -> Response:
+    """Errorhandler für AuthorizationError.
+
+    :param _err: AuthorizationError vom Extrahieren der Benutzerkennung aus dem
+        Authorization-Header
+    :return: Response mit Statuscode 401
+    :rtype: Response
+    """
+    return create_problem_details(status_code=status.HTTP_401_UNAUTHORIZED)
+
+
+@app.exception_handler(LoginError)
+# pylint: disable-next=invalid-name
+def login_error_handler(_request: Request, err: LoginError) -> Response:
+    """Exception-Handler, wenn der Benutzername oder das Passwort fehlerhaft ist.
+
+    :param _exc: LoginError
+    :return: Response-Objekt mit Statuscode 401
+    :rtype: Response
+    """
+    return create_problem_details(
+        status_code=status.HTTP_401_UNAUTHORIZED, detail=str(err)
+    )
+
+
+@app.exception_handler(EmailExistsError)
+def email_exists_error_handler(_request: Request, err: EmailExistsError) -> Response:
+    """Exception-Handling für EmailExistsError.
+
+    :param err: Exception, falls die Emailadresse des neuen oder zu ändernden Patienten
+        bereits existiert
+    :return: Response mit Statuscode 422
+    :rtype: Response
+    """
+    return create_problem_details(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        detail=str(err),
+    )
+
+
+@app.exception_handler(UsernameExistsError)
+def username_exists_error_handler(
+    _request: Request,
+    err: UsernameExistsError,
+) -> Response:
+    """Exception-Handling für UsernameExistsError.
+
+    :param err: Exception, falls der Username für den neuen Patienten bereits existiert
+    :return: Response mit Statuscode 422
+    :rtype: Response
+    """
+    return create_problem_details(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        detail=str(err),
+    )
+
+
+@app.exception_handler(VersionOutdatedError)
+def version_outdated_error_handler(
+    _request: Request,
+    err: VersionOutdatedError,
+) -> Response:
+    """Exception-Handling für VersionOutdatedError.
+
+    :param _err: Exception, falls die Versionsnummer zum Aktualisieren veraltet ist
+    :return: Response mit Statuscode 412
+    :rtype: Response
+    """
+    return create_problem_details(
+        status_code=status.HTTP_412_PRECONDITION_FAILED,
+        detail=str(err),
+    )
