@@ -63,7 +63,7 @@ class UserService:
                 "username": user.username,
                 "email": user.email,
                 "lastName": user.nachname,
-                "firsName": user.vorname,
+                "firstName": user.vorname,
                 "credentials": [{"value": user.password, "type": "password"}],
                 "enabled": True,
             },

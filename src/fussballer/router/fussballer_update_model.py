@@ -56,7 +56,7 @@ class FussballerUpdateModel(BaseModel):
         fussballer_dict["adresse"] = None
         fussballer_dict["auszeichnungen"] = []
         fussballer_dict["username"] = None
-        fussballer_dict["erzeut"] = None
+        fussballer_dict["erzeugt"] = None
         fussballer_dict["aktualisiert"] = None
 
         return fussballer_dict

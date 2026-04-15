@@ -6,7 +6,9 @@ from typing import Annotated, Any, Final
 from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import JSONResponse
 
+from fussballer.security.dependencies import get_token_service
 from fussballer.security.login_data import LoginData
+from fussballer.security.token_service import TokenService
 
 __all__ = ["router"]
 
@@ -29,7 +31,7 @@ async def request_body_to_dict(request: Request) -> dict[str, Any]:
 @router.post("/token")
 def token(
     body: Annotated[dict[str, Any], Depends(request_body_to_dict)],
-    service: Annotated[Tokenservice, Depends(get_token_service)],
+    service: Annotated[TokenService, Depends(get_token_service)],
 ) -> Response:
     """Extrahierte Anmeldedaten verwenden um einen JWT-Token zu erhalten.
 

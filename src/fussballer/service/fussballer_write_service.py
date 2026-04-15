@@ -40,7 +40,7 @@ class FussballerWriteService:
 
         user: Final = User(
             username=username,
-            email=f"{username}@acme.invalid",
+            email=f"{username}@acme.com",
             vorname=fussballer.nachname,
             nachname=fussballer.nachname,
             password="p",  # noqa: S106 # NOSONAR
@@ -49,6 +49,7 @@ class FussballerWriteService:
         self.user_service.create_user(user)
 
         with Session() as session:
+
             fussballer_db: Final = self.repo.create(
                 fussballer=fussballer, session=session
                 )
@@ -83,9 +84,8 @@ class FussballerWriteService:
 
             fussballer_db.set(fussballer)
             if (
-                fussballer_updated := self.repo.update(
-                    fussballer=fussballer_db, session=session
-                )
+                fussballer_updated := self.repo.update(fussballer=fussballer_db,
+                session=session)
             ) is None:
                 raise NotFoundError(fussballer_id=fussballer_id)
             fussballer_dto: Final = FussballerDTO(fussballer_updated)
