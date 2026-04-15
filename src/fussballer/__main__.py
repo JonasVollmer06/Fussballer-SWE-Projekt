@@ -1,1 +1,8 @@
-"""CLI für das Pro
+"""CLI für das Projekt."""
+
+from fussballer.asgi_server import run
+
+__all__ = ["run"]
+
+if __name__ == "__main__":
+    run()
