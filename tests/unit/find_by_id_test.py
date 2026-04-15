@@ -107,6 +107,7 @@ def test_find_by_id_success(fussballer_service: FussballerService, session_mock)
         nachname="Mocktest",
         nationalitaet="DE",
         position=Position.STUERMER,
+        geburtsdatum=date(2025, 1, 31),
         username=username,
         adresse=adresse_mock,
         auszeichnungen=[]
