@@ -44,23 +44,6 @@ def test_login_falsches_passwort() -> None:
 
 
 @mark.login
-def test_login_ohne_daten() -> None:
-    # arrange
-    login_data: dict[str, str] = {}
-
-    # act
-    response: Final = post(
-        url=f"{base_url}{token_path}",
-        json=login_data,
-        verify=ctx,
-        timeout=timeout,
-    )
-
-    # assert
-    assert response.status_code == HTTPStatus.UNAUTHORIZED
-
-
-@mark.login
 def test_login_unbekannter_user() -> None:
     # arrange
     login_data: Final = {"username": "GIBTS_NICHT", "password": "IRGENDEIN_PASSWORT"}

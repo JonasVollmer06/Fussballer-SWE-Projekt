@@ -11,7 +11,7 @@ from pytest import mark
 
 @mark.rest
 @mark.get_request
-@mark.parametrize("fussballer_id", [30, 40, 20])
+@mark.parametrize("fussballer_id", [3, 4, 2])
 def test_get_by_id_admin(fussballer_id: int) -> None:
     # arrange
     token: Final = login()
@@ -38,7 +38,7 @@ def test_get_by_id_admin(fussballer_id: int) -> None:
 @mark.get_request
 def test_get_by_id_not_found() -> None:
     # arrange
-    fussballer_id: Final = 999999
+    fussballer_id: Final = 123456789
     token: Final = login()
     assert token is not None
     headers = {"Authorization": f"Bearer {token}"}
@@ -58,7 +58,7 @@ def test_get_by_id_not_found() -> None:
 @mark.get_request
 def test_get_by_id_fussballer() -> None:
     # arrange
-    fussballer_id: Final = 20
+    fussballer_id: Final = 2
     token: Final = login(username="jonas")
     assert token is not None
     headers = {"Authorization": f"Bearer {token}"}
@@ -81,7 +81,7 @@ def test_get_by_id_fussballer() -> None:
 
 @mark.rest
 @mark.get_request
-@mark.parametrize("fussballer_id", [1, 30])
+@mark.parametrize("fussballer_id", [1, 3])
 def test_get_by_id_not_allowed(fussballer_id: int) -> None:
     # arrange
     token: Final = login(username="jonas")

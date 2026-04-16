@@ -94,7 +94,7 @@ class FussballerService:
             session.commit()
 
             if len(nachnamen) == 0:
-                raise FileNotFoundError
+                raise NotFoundError
 
             logger.debug("nachnamen={}", nachnamen)
             return nachnamen
