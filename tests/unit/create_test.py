@@ -4,11 +4,12 @@
 from copy import deepcopy
 from datetime import date
 
-from pytest import fixture, mark, raises
+from pytest import fixture, mark
 from pytest_mock import MockerFixture
 
-
 from fussballer.entity import Adresse, Fussballer, Position
+
+
 @fixture
 def session_mock(mocker: MockerFixture):
     session = mocker.Mock()
@@ -64,7 +65,10 @@ def test_create(
 
     session_mock.flush.side_effect = flush_side_effect
 
-    mocker.patch("fussballer.service.fussballer_write_service.send_mail", return_value=None)
+    mocker.patch(
+        "fussballer.service.fussballer_write_service.send_mail",
+        return_value=None
+    )
 
     # Act
     fussballer_dto = fussballer_write_service.create(fussballer=fussballer)

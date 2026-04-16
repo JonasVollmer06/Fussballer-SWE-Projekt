@@ -6,10 +6,7 @@ import strawberry
 
 from fussballer.entity import Position
 
-__all__ = [
-    "AdresseInput",
-    "AuszeichnungInput",
-    "CreatePayload",
+__all__ = ["AdresseInput", "AuszeichnungInput", "CreatePayload",
     "FussballerInput"
 ]
 

@@ -9,7 +9,12 @@ from pytest_mock import MockerFixture
 
 from fussballer.entity import Adresse, Fussballer, Position
 from fussballer.security import Role, User
-from fussballer.service import ForbiddenError, NotFoundError, FussballerDTO, FussballerService
+from fussballer.service import (
+    ForbiddenError,
+    FussballerDTO,
+    FussballerService,
+    NotFoundError,
+)
 
 
 @fixture
@@ -79,7 +84,10 @@ def test_find_by_id_admin_success(
 
 @mark.unit
 @mark.unit_find_by_id
-def test_find_by_id_success(fussballer_service: FussballerService, session_mock) -> None:
+def test_find_by_id_success(
+    fussballer_service: FussballerService,
+    session_mock
+) -> None:
     # Arrange
     fussballer_id = 1
     username = "mocktest"
@@ -127,7 +135,10 @@ def test_find_by_id_success(fussballer_service: FussballerService, session_mock)
 
 @mark.unit
 @mark.unit_find_by_id
-def test_find_by_id_not_found(fussballer_service: FussballerService, session_mock) -> None:
+def test_find_by_id_not_found(
+    fussballer_service: FussballerService,
+    session_mock
+) -> None:
     # Arrange
     fussballer_id = 999
     user_mock = User(

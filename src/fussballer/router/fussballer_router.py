@@ -3,10 +3,9 @@
 from dataclasses import asdict
 from typing import Annotated, Any, Final
 
-from loguru import logger
-
 from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import JSONResponse
+from loguru import logger
 
 from fussballer.repository import Pageable
 from fussballer.repository.slice import Slice

@@ -106,7 +106,7 @@ dependencies = [
     # Fuer Pydantic zur Validierung https://github.com/JoshData/python-email-validator
     "email-validator>=2.3.0",
     # https://fastapi.tiangolo.com einschl. starlette, pydantic, uvicorn
-    "fastapi>=0.135.3",
+    "fastapi>=0.136.0",
     # httpx fuer den asynchronen TestClient von FastAPI (auch fuer eigene Tests)
     # https://github.com/encode/httpx
     "httpx[http2]>=0.28.1",
@@ -190,7 +190,7 @@ repository = "https://github.com"
 [dependency-groups]
 dev = [
     # FastAPI CLI
-    "fastapi[standard]>=0.135.3",
+    "fastapi[standard]>=0.136.0",
     # http://www.gevent.org genutzt von locust
     "gevent>=v25.9.1",
     # https://github.com/MagicStack/httptools genutzt von uvicorn[standard] fuer fastapi[standard]
