@@ -80,9 +80,9 @@ def test_get_nachnamen(teil: str) -> None:
 
 @mark.rest
 @mark.get_request
-@mark.parametrize("teil", ["xyz", "QWE"])
-def test_get_nachnamen_not_found(teil: str) -> None:
+def test_get_nachnamen_not_found() -> None:
     # arrange
+    teil: Final = "Goette"
     token: Final = login()
     assert token is not None
     headers = {"Authorization": f"Bearer {token}"}

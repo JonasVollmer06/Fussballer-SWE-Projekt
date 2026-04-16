@@ -17,11 +17,11 @@ token: str | None
 def test_post() -> None:
     # arrange
     neuer_fussballer: Final = {
-        "nachname": "TestFussballer",
-        "nationalitaet": "DE",
-        "position": "STUERMER",
+        "nachname": "Testfussballer",
+        "nationalitaet": "Deutschland",
+        "position": "S",
         "geburtsdatum": "2022-02-01",
-        "username": "neu_rest",
+        "username": "neurest",
         "adresse": {
             "plz": "99999",
             "ort": "Testort",
@@ -84,9 +84,9 @@ def test_post_username_exists() -> None:
     # arrange
     username_exists: Final = "jonas"
     neuer_fussballer: Final = {
-        "nachname": "NachnameExists",
-        "nationalitaet": "DE",
-        "position": "TORWART",
+        "nachname": "Nachnameexists",
+        "nationalitaet": "Deutschland",
+        "position": "T",
         "geburtsdatum": "2022-02-01",
         "username": username_exists,
         "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},

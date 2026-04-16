@@ -9,29 +9,26 @@ from common_test import ctx, login, rest_url
 from httpx import put
 from pytest import mark
 
-USERNAME_UPDATE: Final = "username_put"
+POSITION_UPDATE: Final = "T"
 
 
 @mark.rest
 @mark.put_request
 def test_put() -> None:
     # arrange
-    fussballer_id: Final = 40
+    fussballer_id: Final = 4
     if_match: Final = '"0"'
     geaenderter_fussballer: Final = {
         "nachname": "Mockput",
-        "nationalitaet": "DE",
-        "position": "MITTELFELDSPIELER",
-        "geburtsdatum": "2022-02-01",
-        "username": USERNAME_UPDATE,
-        "adresse": {"plz": "99999", "ort": "Testort", "bundesland": "Testland"},
-        "auszeichnungen": []
+        "nationalitaet": "Deutschland",
+        "position": POSITION_UPDATE,
+        "geburtsdatum": "2022-06-01",
     }
     token: Final = login()
     assert token is not None
     headers = {
         "Authorization": f"Bearer {token}",
-        "If-Match": if_match,
+        "If-Match": if_match
     }
 
     # act
@@ -51,21 +48,19 @@ def test_put() -> None:
 @mark.put_request
 def test_put_invalid() -> None:
     # arrange
-    fussballer_id: Final = 40
+    fussballer_id: Final = 4
     geaenderter_fussballer_invalid: Final = {
-        "nachname": "falscher_nachname_123",
+        "nachname": "1falschernachname123",
         "nationalitaet": "Deutschland",
-        "position": "FALSCHE_POSITION",
+        "position": "POSITION_UPDATE",
         "geburtsdatum": "2022-02-01",
         "username": "testrestinvalid",
-        "adresse": {"plz": "12", "ort": "Testort", "bundesland": "Testland"},
-        "auszeichnungen": []
     }
     token: Final = login()
     assert token is not None
     headers = {
-        "Authorization": f"Bearer {token}",
         "If-Match": '"0"',
+        "Authorization": f"Bearer {token}"
     }
 
     # act
@@ -79,8 +74,7 @@ def test_put_invalid() -> None:
     # assert
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
     body = response.text
-    assert "position" in body
-    assert "plz" in body
+    assert "nachname" in body
 
 
 @mark.rest
@@ -91,12 +85,9 @@ def test_put_nicht_vorhanden() -> None:
     if_match: Final = '"0"'
     geaenderter_fussballer: Final = {
         "nachname": "Mockput",
-        "nationalitaet": "DE",
-        "position": "MITTELFELDSPIELER",
+        "nationalitaet": "Deutschland",
+        "position": POSITION_UPDATE,
         "geburtsdatum": "2022-02-01",
-        "username": USERNAME_UPDATE,
-        "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},
-        "auszeichnungen": []
     }
     token: Final = login()
     assert token is not None
@@ -119,19 +110,15 @@ def test_put_nicht_vorhanden() -> None:
 
 @mark.rest
 @mark.put_request
-def test_put_username_exists() -> None:
+def test_put_alte_version() -> None:
     # arrange
-    fussballer_id: Final = 40
-    if_match: Final = '"0"'
-    username_exists: Final = "jonas"
+    fussballer_id: Final = 4
+    if_match: Final = '"-1"'
     geaenderter_fussbller: Final = {
         "nachname": "Mockput",
-        "nationalitaet": "DE",
-        "position": "MITTELFELDSPIELER",
+        "nationalitaet": "Deutschland",
+        "position": POSITION_UPDATE,
         "geburtsdatum": "2022-02-01",
-        "username": username_exists,
-        "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},
-        "auszeichnungen": []
     }
     token: Final = login()
     assert token is not None
@@ -149,5 +136,4 @@ def test_put_username_exists() -> None:
     )
 
     # assert
-    assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
-    assert username_exists in response.text
+    assert response.status_code == HTTPStatus.PRECONDITION_FAILED

@@ -41,7 +41,7 @@ def token(
     try:
         login_data: Final = LoginData(username=body["username"],
         password=body["password"])
-    except (KeyError, TypeError):
+    except TypeError:
         return Response(status_code=status.HTTP_401_UNAUTHORIZED)
 
     token: Final = service.token(username=login_data.username,
