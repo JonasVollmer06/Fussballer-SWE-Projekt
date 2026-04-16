@@ -3,10 +3,9 @@
 from dataclasses import asdict
 from typing import Annotated, Any, Final
 
-from loguru import logger
-
 from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import JSONResponse
+from loguru import logger
 
 from fussballer.repository import Pageable
 from fussballer.repository.slice import Slice
@@ -29,7 +28,7 @@ def get_by_id(
     fussballer_id: int,
     request: Request,
     service: Annotated[FussballerService, Depends(get_service)],
-)   -> Response:
+) -> Response:
     """Suche eines Fußballer-Objektes durch eine vorgegebene ID.
 
     :param fussballer_id: Die ID zu welcher das passende Fußballer-Objekt gesucht wird
@@ -44,10 +43,10 @@ def get_by_id(
     if_none_match: Final = request.headers.get("if-none-match")
 
     if (
-        if_none_match is not None and
-        len(if_none_match) >= IF_NONE_MATCH_MIN_LEN and
-        if_none_match.startswith('"') and
-        if_none_match.endswith('"')
+        if_none_match is not None
+        and len(if_none_match) >= IF_NONE_MATCH_MIN_LEN
+        and if_none_match.startswith('"')
+        and if_none_match.endswith('"')
     ):
         versionsnummer = if_none_match[1:-1]
         if versionsnummer is not None:
@@ -64,7 +63,7 @@ def get_by_id(
 
 
 @fussballer_router.get(
-     "",
+    "",
     dependencies=[Depends(RolesRequired([Role.ADMIN, Role.FUSSBALLER]))],
 )
 def get(

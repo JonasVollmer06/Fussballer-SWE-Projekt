@@ -22,12 +22,8 @@ def test_post() -> None:
         "position": "S",
         "geburtsdatum": "2022-02-01",
         "username": "neurest",
-        "adresse": {
-            "plz": "99999",
-            "ort": "Testort",
-            "bundesland": "Testland"
-            },
-        "auszeichnungen": []
+        "adresse": {"plz": "99999", "ort": "Testort", "bundesland": "Testland"},
+        "auszeichnungen": [],
     }
     headers = {"Content-Type": "application/json"}
 
@@ -59,7 +55,7 @@ def test_post_invalid() -> None:
         "geburtsdatum": "2022-02-01",
         "username": "testrestinvalid",
         "adresse": {"plz": "1234", "ort": "Restort", "bundesland": "Restland"},
-        "auszeichnungen": []
+        "auszeichnungen": [],
     }
     headers = {"Content-Type": "application/json"}
 
@@ -90,7 +86,7 @@ def test_post_username_exists() -> None:
         "geburtsdatum": "2022-02-01",
         "username": username_exists,
         "adresse": {"plz": "99999", "ort": "Restort", "bundesland": "Restland"},
-        "auszeichnungen": []
+        "auszeichnungen": [],
     }
     headers = {"Content-Type": "application/json"}
 

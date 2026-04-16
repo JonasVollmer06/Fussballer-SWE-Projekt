@@ -39,13 +39,15 @@ def token(
     dass der Inhalt von body Daten enthält.
     """
     try:
-        login_data: Final = LoginData(username=body["username"],
-        password=body["password"])
+        login_data: Final = LoginData(
+            username=body["username"], password=body["password"]
+        )
     except TypeError:
         return Response(status_code=status.HTTP_401_UNAUTHORIZED)
 
-    token: Final = service.token(username=login_data.username,
-    password=login_data.password,
+    token: Final = service.token(
+        username=login_data.username,
+        password=login_data.password,
     )
     access_token: Final = token["access_token"]
     roles: Final = service.get_roles_from_token(token=access_token)

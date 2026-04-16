@@ -1,4 +1,5 @@
 """FussballWriteRouter."""
+
 from typing import Annotated, Final
 
 from fastapi import APIRouter, Depends, Request, Response, status

@@ -17,5 +17,5 @@ __all__: Sequence[str] = [
     "FussballerInput",
     "Mutation",
     "Query",
-    "graphql_router"
+    "graphql_router",
 ]

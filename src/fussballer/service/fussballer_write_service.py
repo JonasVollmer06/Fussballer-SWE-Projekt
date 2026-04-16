@@ -58,10 +58,9 @@ class FussballerWriteService:
         self.user_service.create_user(user)
 
         with Session() as session:
-
             fussballer_db: Final = self.repo.create(
                 fussballer=fussballer, session=session
-                )
+            )
             fussballer_dto: Final = FussballerDTO(fussballer_db)
             session.commit()
 
@@ -71,7 +70,7 @@ class FussballerWriteService:
 
     def update(
         self, fussballer: Fussballer, fussballer_id: int, version: int
-        ) -> FussballerDTO:
+    ) -> FussballerDTO:
         """Daten eines Fussballers ändern.
 
         :param fussballer: Die neuen Daten
@@ -101,8 +100,9 @@ class FussballerWriteService:
 
             fussballer_db.set(fussballer)
             if (
-                fussballer_updated := self.repo.update(fussballer=fussballer_db,
-                session=session)
+                fussballer_updated := self.repo.update(
+                    fussballer=fussballer_db, session=session
+                )
             ) is None:
                 raise NotFoundError(fussballer_id=fussballer_id)
             fussballer_dto: Final = FussballerDTO(fussballer_updated)

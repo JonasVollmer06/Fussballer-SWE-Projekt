@@ -39,9 +39,7 @@ class FussballerService:
         with Session() as session:
             user_is_admin: Final = Role.ADMIN in user.roles
 
-            if (
-                fussballer := self.repo.find_by_id(fussballer_id, session)
-            ) is None:
+            if (fussballer := self.repo.find_by_id(fussballer_id, session)) is None:
                 if user_is_admin:
                     raise NotFoundError(fussballer_id=fussballer_id)
                 raise ForbiddenError
@@ -55,9 +53,7 @@ class FussballerService:
         return fussballer_dto
 
     def find(
-        self,
-        suchparameter: Mapping[str, str],
-        pageable: Pageable
+        self, suchparameter: Mapping[str, str], pageable: Pageable
     ) -> Slice[FussballerDTO]:
         """Suche von Fussballern anhand Query-Parametern.
 

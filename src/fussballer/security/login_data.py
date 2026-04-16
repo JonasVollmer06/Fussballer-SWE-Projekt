@@ -19,6 +19,6 @@ class LoginData:
         json_schema_extra = {
             "example": {
                 "username": "admin",
-                "password": "p",   # NOSONAR
+                "password": "p",  # NOSONAR
             },
         }

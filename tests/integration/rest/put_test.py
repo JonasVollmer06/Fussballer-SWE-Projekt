@@ -26,10 +26,7 @@ def test_put() -> None:
     }
     token: Final = login()
     assert token is not None
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "If-Match": if_match
-    }
+    headers = {"Authorization": f"Bearer {token}", "If-Match": if_match}
 
     # act
     response: Final = put(
@@ -58,10 +55,7 @@ def test_put_invalid() -> None:
     }
     token: Final = login()
     assert token is not None
-    headers = {
-        "If-Match": '"0"',
-        "Authorization": f"Bearer {token}"
-    }
+    headers = {"If-Match": '"0"', "Authorization": f"Bearer {token}"}
 
     # act
     response: Final = put(

@@ -38,6 +38,6 @@ class FussballerDTO:
         self.geburtsdatum: date = fussballer.geburtsdatum
         self.nationalitaet: str = fussballer.nationalitaet
         self.adresse: AdresseDTO = AdresseDTO(fussballer.adresse)
-        self.username = (fussballer.username
-        if fussballer.username is not None else "N/A"
+        self.username = (
+            fussballer.username if fussballer.username is not None else "N/A"
         )

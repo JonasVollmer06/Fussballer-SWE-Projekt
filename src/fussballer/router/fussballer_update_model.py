@@ -1,4 +1,5 @@
 """Pydantic-Model zum Aktualisieren von Fussballer-Daten."""
+
 from datetime import date
 from typing import Annotated, Any
 
@@ -17,7 +18,7 @@ class FussballerUpdateModel(BaseModel):
         str,
         StringConstraints(
             pattern="^[A-ZÄÖÜ][a-zäöüß]+(-[A-ZÄÖÜ][a-zäöüß])?$",
-           # pattern="^[A-ZÄÖÜ][A-Za-zÄÖÜäöüß-]*$",
+            # pattern="^[A-ZÄÖÜ][A-Za-zÄÖÜäöüß-]*$",
             max_length=64,
         ),
     ]

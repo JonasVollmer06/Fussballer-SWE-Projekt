@@ -1,4 +1,5 @@
 """Service für die Authentifizierung und Token erstellung mit Keycloak."""
+
 from collections.abc import Mapping
 from dataclasses import asdict
 from typing import Any, Final

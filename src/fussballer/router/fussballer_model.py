@@ -1,4 +1,5 @@
 """Pydantic-Model für die Fussballer-Daten."""
+
 from typing import Annotated, Any, Final
 
 from pydantic import StringConstraints
@@ -35,7 +36,7 @@ class FussballerModel(FussballerUpdateModel):
         fussballer: Final = Fussballer(**fussballer_dict)
         fussballer.adresse: Adresse = self.adresse.to_adresse()
         fussballer.auszeichnungen: list[Auszeichnung] = [
-            auszeichnung_model.to_auszeichnung() for auszeichnung_model
-            in self.auszeichnungen
+            auszeichnung_model.to_auszeichnung()
+            for auszeichnung_model in self.auszeichnungen
         ]
         return fussballer

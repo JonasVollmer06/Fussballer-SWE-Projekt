@@ -7,7 +7,7 @@ __all__ = [
     "NotFoundError",
     "UsernameExistsError",
     "VersionOutdatedError",
-    ]
+]
 
 
 class ForbiddenError(Exception):

@@ -7,7 +7,7 @@ from loguru import logger
 
 from fussballer.security.dependencies import get_token_service
 from fussballer.security.role import Role
-from fussballer.security .token_service import TokenService
+from fussballer.security.token_service import TokenService
 
 if TYPE_CHECKING:
     from fussballer.security.user import User
@@ -32,8 +32,9 @@ class RolesRequired:
 
         if isinstance(self.required_roles, Role):
             if self.required_roles not in user.roles:
-                logger.warning("Der Benutzer {} hat nicht die Rolle: {}", user,
-                self.required_roles)
+                logger.warning(
+                    "Der Benutzer {} hat nicht die Rolle: {}", user, self.required_roles
+                )
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
             request.state.current_user = user
             return

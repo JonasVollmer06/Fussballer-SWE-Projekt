@@ -40,9 +40,7 @@ class Page:
 
     @staticmethod
     def create(
-        content: tuple[dict[str, Any], ...],
-        pageable: Pageable,
-        total_elements: int
+        content: tuple[dict[str, Any], ...], pageable: Pageable, total_elements: int
     ) -> Page:
         """Erstellen einer Seite mit ihren Daten + Metainformationen."""
         total_pages: Final = ceil(total_elements / pageable.size)

@@ -9,7 +9,12 @@ from pytest_mock import MockerFixture
 
 from fussballer.entity import Adresse, Fussballer, Position
 from fussballer.security import Role, User
-from fussballer.service import ForbiddenError, NotFoundError, FussballerDTO, FussballerService
+from fussballer.service import (
+    ForbiddenError,
+    FussballerDTO,
+    FussballerService,
+    NotFoundError,
+)
 
 
 @fixture
@@ -41,7 +46,7 @@ def test_find_by_id_admin_success(
         nachname="Admin",
         vorname="Admin",
         roles=[Role.ADMIN],
-        password="p"
+        password="p",
     )
 
     adresse_mock = Adresse(
@@ -61,7 +66,7 @@ def test_find_by_id_admin_success(
         geburtsdatum=date(2025, 1, 31),
         username=username_spieler,
         adresse=adresse_mock,
-        auszeichnungen=[]
+        auszeichnungen=[],
     )
     adresse_mock.fussballer = fussballer_mock
     fussballer_dto_mock = FussballerDTO(fussballer=fussballer_mock)
@@ -79,7 +84,9 @@ def test_find_by_id_admin_success(
 
 @mark.unit
 @mark.unit_find_by_id
-def test_find_by_id_success(fussballer_service: FussballerService, session_mock) -> None:
+def test_find_by_id_success(
+    fussballer_service: FussballerService, session_mock
+) -> None:
     # Arrange
     fussballer_id = 1
     username = "mocktest"
@@ -92,7 +99,7 @@ def test_find_by_id_success(fussballer_service: FussballerService, session_mock)
         nachname=nachname,
         vorname=nachname,
         roles=[Role.FUSSBALLER],
-        password="p"
+        password="p",
     )
     adresse_mock = Adresse(
         id=11,
@@ -110,7 +117,7 @@ def test_find_by_id_success(fussballer_service: FussballerService, session_mock)
         geburtsdatum=date(2025, 1, 31),
         username=username,
         adresse=adresse_mock,
-        auszeichnungen=[]
+        auszeichnungen=[],
     )
     adresse_mock.fussballer: Fussballer = fussballer_mock
     fussballer_dto_mock = FussballerDTO(fussballer=fussballer_mock)
@@ -119,7 +126,7 @@ def test_find_by_id_success(fussballer_service: FussballerService, session_mock)
     # Act
     fussballer_dto: FussballerDTO = fussballer_service.find_by_id(
         fussballer_id=fussballer_id, user=user_mock
-        )
+    )
 
     # Assert
     assert asdict(fussballer_dto) == asdict(fussballer_dto_mock)
@@ -127,7 +134,9 @@ def test_find_by_id_success(fussballer_service: FussballerService, session_mock)
 
 @mark.unit
 @mark.unit_find_by_id
-def test_find_by_id_not_found(fussballer_service: FussballerService, session_mock) -> None:
+def test_find_by_id_not_found(
+    fussballer_service: FussballerService, session_mock
+) -> None:
     # Arrange
     fussballer_id = 999
     user_mock = User(
@@ -136,7 +145,7 @@ def test_find_by_id_not_found(fussballer_service: FussballerService, session_moc
         nachname="Mocktest",
         vorname="Mocktest",
         roles=[Role.ADMIN],
-        password="p"
+        password="p",
     )
     session_mock.scalar.return_value = None
 
@@ -154,7 +163,7 @@ def test_find_by_id_not_found(fussballer_service: FussballerService, session_moc
 @mark.unit_find_by_id
 def test_find_by_id_forbidden(
     fussballer_service: FussballerService, session_mock
-    ) -> None:
+) -> None:
     # Arrange
     fussballer_id = 999
     user_mock = User(
@@ -163,7 +172,7 @@ def test_find_by_id_forbidden(
         nachname="Mocktest",
         vorname="Mocktest",
         roles=[],
-        password="p"
+        password="p",
     )
     session_mock.scalar.return_value = None
 

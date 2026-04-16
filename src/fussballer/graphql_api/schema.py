@@ -1,4 +1,5 @@
 """Schema für die GraphQL-Schnittstelle mit Strawberry statt SDL."""
+
 from typing import Final
 
 import strawberry
@@ -24,8 +25,9 @@ __all__ = ["graphql_router"]
 _repo: Final = FussballerRepository()
 _fussballer_service: FussballerService = FussballerService(repo=_repo)
 _user_service: UserService = UserService()
-_write_service: FussballerWriteService = FussballerWriteService(repo=_repo,
-user_service=_user_service)
+_write_service: FussballerWriteService = FussballerWriteService(
+    repo=_repo, user_service=_user_service
+)
 
 
 @strawberry.type
@@ -34,9 +36,8 @@ class Query:
 
     @strawberry.field
     def fussballer(
-        self,
-        fussballer_id: strawberry.ID,
-        info: Info) -> FussballerDTO | None:
+        self, fussballer_id: strawberry.ID, info: Info
+    ) -> FussballerDTO | None:
         """Methode zum lesen von Fussballerdaten anhand einer gegebenen Id.
 
         :return: Gesuchte Fussballerdaten
@@ -49,7 +50,8 @@ class Query:
         try:
             int_fussballer_id: Final = int(fussballer_id)
             fussballer_dto: Final = _fussballer_service.find_by_id(
-                fussballer_id=int_fussballer_id, user=user)
+                fussballer_id=int_fussballer_id, user=user
+            )
 
         except NotFoundError:
             return None
@@ -69,8 +71,9 @@ class Mutation:
         """
         fussballer_dict = fussballer_input.__dict__
         fussballer_dict["adresse"] = fussballer_input.adresse.__dict__
-        fussballer_dict["auszeichnungen"] = [auszeichnung.__dict__ for auszeichnung in
-            fussballer_input.auszeichnungen]
+        fussballer_dict["auszeichnungen"] = [
+            auszeichnung.__dict__ for auszeichnung in fussballer_input.auszeichnungen
+        ]
 
         fussballer_model: Final = FussballerModel.model_validate(fussballer_dict)
 

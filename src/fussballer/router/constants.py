@@ -1,4 +1,3 @@
-
 """Für den FußballerGetRouter."""
 
 from typing import Final

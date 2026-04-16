@@ -34,8 +34,9 @@ class FussballerRepository:
 
         return fussballer
 
-    def find(self, suchparameter: Mapping[str, str], pageable: Pageable,
-        session: Session) -> Slice[Fussballer]:
+    def find(
+        self, suchparameter: Mapping[str, str], pageable: Pageable, session: Session
+    ) -> Slice[Fussballer]:
         """Suche von Fussballer-Objekten mit Suchparametern.
 
         :return: Ausschnitt der gefundenen Fussballer-Objekten.
@@ -52,14 +53,14 @@ class FussballerRepository:
         }
 
         for key, value in suchparameter.items():
-
             if key not in erlaubte_attribute:
                 raise ValueError
 
             attribut = erlaubte_attribute[key]
 
-            return self._find_by_attribut(attribut,
-                    teil=value, pageable=pageable, session=session)
+            return self._find_by_attribut(
+                attribut, teil=value, pageable=pageable, session=session
+            )
 
         logger.debug("slice: {}", Slice)
         return Slice(content=(), total_elements=0)
@@ -70,22 +71,22 @@ class FussballerRepository:
 
         if pageable.size != 0:
             statement: Final = (
-                    select(Fussballer)
-                    .options(joinedload(Fussballer.adresse))
-                    .limit(pageable.size)
-                    .offset(start)
-            )
-        else:
-            statement: Final = (
                 select(Fussballer)
                 .options(joinedload(Fussballer.adresse))
+                .limit(pageable.size)
+                .offset(start)
+            )
+        else:
+            statement: Final = select(Fussballer).options(
+                joinedload(Fussballer.adresse)
             )
 
         fussballers: Final = (session.scalars(statement)).all()
         logger.debug("Fussballers: {}", fussballers)
         anzahl: Final = self._count_all_rows(session)
-        fussballer_slice: Final = Slice(content=tuple(fussballers),
-            total_elements=anzahl)
+        fussballer_slice: Final = Slice(
+            content=tuple(fussballers), total_elements=anzahl
+        )
 
         return fussballer_slice
 
@@ -95,8 +96,13 @@ class FussballerRepository:
 
         return count if count is not None else 0
 
-    def _find_by_attribut(self, attribut: InstrumentedAttribute, teil: str,
-    pageable: Pageable, session: Session) -> Slice[Fussballer]:
+    def _find_by_attribut(
+        self,
+        attribut: InstrumentedAttribute,
+        teil: str,
+        pageable: Pageable,
+        session: Session,
+    ) -> Slice[Fussballer]:
 
         start = pageable.number * pageable.size
 
@@ -119,13 +125,15 @@ class FussballerRepository:
 
         fussballers: Final = session.scalars(statement).all()
         anzahl: Final = self._count_attribut_rows(attribut, teil, session)
-        fussballer_slice: Final = Slice(content=tuple(fussballers),
-            total_elements=anzahl)
+        fussballer_slice: Final = Slice(
+            content=tuple(fussballers), total_elements=anzahl
+        )
 
         return fussballer_slice
 
-    def _count_attribut_rows(self, attribut: InstrumentedAttribute, teil: str,
-        session: Session) -> int:
+    def _count_attribut_rows(
+        self, attribut: InstrumentedAttribute, teil: str, session: Session
+    ) -> int:
         statement: Final = (
             select(func.count())
             .select_from(Fussballer)
