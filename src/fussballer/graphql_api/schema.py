@@ -43,6 +43,7 @@ class Query:
 
         :return: Gesuchte Fussballerdaten
         """
+        
         request: Final[Request] = info.context.get("request")
         user: Final = _token_service.get_user_from_request(request=request)
         if user is None:
