@@ -16,7 +16,7 @@ POSITION_UPDATE: Final = "T"
 @mark.put_request
 def test_put() -> None:
     # arrange
-    fussballer_id: Final = 4
+    fussballer_id: Final = 40
     if_match: Final = '"0"'
     geaenderter_fussballer: Final = {
         "nachname": "Mockput",
@@ -48,7 +48,7 @@ def test_put() -> None:
 @mark.put_request
 def test_put_invalid() -> None:
     # arrange
-    fussballer_id: Final = 4
+    fussballer_id: Final = 40
     geaenderter_fussballer_invalid: Final = {
         "nachname": "1falschernachname123",
         "nationalitaet": "Deutschland",
@@ -112,7 +112,7 @@ def test_put_nicht_vorhanden() -> None:
 @mark.put_request
 def test_put_alte_version() -> None:
     # arrange
-    fussballer_id: Final = 4
+    fussballer_id: Final = 40
     if_match: Final = '"-1"'
     geaenderter_fussbller: Final = {
         "nachname": "Mockput",
